@@ -6,5 +6,10 @@
     "dbName": "dev-pansitzt",
     "username": "pansitzt-dev",
     "password": "pansitzt-dev"
+  },
+  "twitter": {
+    "consumerKey": "",
+    "consumerSecret": "",
+    "callbackURL": ""
   }
 }
