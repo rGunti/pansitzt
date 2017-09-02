@@ -2,6 +2,7 @@
   "appName": "#PanSitzt",
   "locales": ["de"],
   "defaultLocale": "de",
+  "port": 1337,
   "database": {
     "host": "data.ge.rgunti.ch",
     "port": 3306,
