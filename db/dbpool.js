@@ -22,19 +22,26 @@
  *
  */
 
-body {
-    background-color: #0e141a;
-    color: #cccccc;
-}
+const dbConfig = require('config').get('database');
+const debug = require('debug')('pansitzt:dbpool');
+const Sequelize = require('sequelize');
 
-a {
-    color: #64b5f6;
-}
+const db = new Sequelize(dbConfig.dbName, dbConfig.username, dbConfig.password, {
+    host: dbConfig.host,
+    dialect: 'mysql', /* TODO: Could be done via config json */
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
+});
 
-a:hover {
-    color: #90caf9;
-}
+db.authenticate()
+    .then(function () {
+        debug('Connection to database has been established.');
+    })
+    .catch(function(err) {
+        debug('Connection to database failed due to an error: ', err);
+    });
 
-pre {
-    color: greenyellow;
-}
+module.exports = db;

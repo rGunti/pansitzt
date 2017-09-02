@@ -22,19 +22,19 @@
  *
  */
 
-body {
-    background-color: #0e141a;
-    color: #cccccc;
-}
+var appVersion = require('../package.json').version;
 
-a {
-    color: #64b5f6;
-}
+const Utils = {
+    renderPage: function(req, res, page, title, data) {
+        res.render('templates/main', {
+            page: page,
+            title: res.__(title),
+            data: data,
+            isLoggedIn: req.isAuthenticated(),
+            loggedInUser: req.user || null,
+            version: appVersion
+        })
+    }
+};
 
-a:hover {
-    color: #90caf9;
-}
-
-pre {
-    color: greenyellow;
-}
+module.exports = Utils;

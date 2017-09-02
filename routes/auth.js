@@ -22,19 +22,31 @@
  *
  */
 
-body {
-    background-color: #0e141a;
-    color: #cccccc;
-}
+var Utils = require('./utils');
 
-a {
-    color: #64b5f6;
-}
+module.exports = function (app, passport){
+    app.get('/profile', isLoggedIn, function(req, res) {
+        Utils.renderPage(req, res, 'profile', 'page.profile.title');
+    });
 
-a:hover {
-    color: #90caf9;
-}
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
 
-pre {
-    color: greenyellow;
-}
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
+            successRedirect: '/profile',
+            failureRedirect: '/'
+        })
+    );
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+
+        res.redirect('/');
+    }
+};

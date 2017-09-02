@@ -32,14 +32,37 @@
             <li class="nav-item">
                 <a class="nav-link" href="/"><%= __('page.home.title') %></a>
             </li>
-        </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item">
                 <a class="nav-link"
                    target="_blank"
                    href="https://twitter.com/xPandorya">
                     @xPandorya</a>
             </li>
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+            <% if (isLoggedIn) { %>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/profile">
+                    @<%= loggedInUser.handle %>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/logout">
+                    <span class="fa fa-sign-out"></span>
+                    <%= __('nav.logout') %>
+                </a>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/auth/twitter">
+                    <span class="fa fa-twitter"></span>
+                    <%= __('nav.login.twitter') %>
+                </a>
+            </li>
+            <% } %>
         </ul>
     </div>
 </nav>

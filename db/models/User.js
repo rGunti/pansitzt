@@ -22,19 +22,41 @@
  *
  */
 
-body {
-    background-color: #0e141a;
-    color: #cccccc;
-}
+const Sequelize = require('sequelize');
+const db = require('../dbpool');
 
-a {
-    color: #64b5f6;
-}
+const User = db.define('users', {
+    twitterID: {
+        field: 'twitter_id',
+        type: Sequelize.DataTypes.STRING,
+        primaryKey: true,
+        validate: {
+            is: ['[0-9]', 'i'] // only allow numbers
+        }
+    },
+    twitterToken: {
+        field: 'twitter_token',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    handle: {
+        field: 'handle',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    displayName: {
+        field: 'display_name',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    createdAt: {
+        field: 'created_at',
+        type: Sequelize.DataTypes.TIME
+    },
+    updatedAt: {
+        field: 'updated_at',
+        type: Sequelize.DataTypes.TIME
+    }
+});
 
-a:hover {
-    color: #90caf9;
-}
-
-pre {
-    color: greenyellow;
-}
+module.exports = User;

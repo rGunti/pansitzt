@@ -47,10 +47,10 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
-    <%- include('nav', { title: title, page: page, data: data }) %>
+    <%- include('nav', { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser }) %>
 
     <div class="container">
-        <%- include('../pages/' + page, { title: title, page: page, data: data }) %>
+        <%- include('../pages/' + page, { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser }) %>
     </div>
 
     <%- include('footer', { version: version }) %>

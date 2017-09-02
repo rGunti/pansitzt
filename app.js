@@ -1,10 +1,15 @@
 var config = require('config');
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var passport = require('passport');
+// Configure Passport
+require('./passport/index')(passport);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -35,8 +40,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
 
+// Setup Passport
+app.use(session({ secret: 'pansitztsessionsecretisfuckinghardtocrack111elf' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Setup Routes
 app.use('/', index);
-app.use('/users', users);
+require('./routes/auth')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
