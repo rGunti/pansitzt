@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var appVersion = require('../package.json').version;
 
 function renderPage(res, page, title, data) {
-  res.render('templates/main', { page: page, title: res.__(title), data: data })
+  res.render('templates/main', { page: page, title: res.__(title), data: data, version: appVersion })
 }
 
 /* GET home page. */
