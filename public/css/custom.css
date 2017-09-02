@@ -25,3 +25,7 @@
 body .container:first-of-type {
     padding-top: 20px;
 }
+
+footer img.emoji {
+    width: 16px;
+}
