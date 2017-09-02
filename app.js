@@ -13,7 +13,8 @@ var i18n = require('i18n');
 i18n.configure({
     locales: config.get('locales'),
     directory: __dirname + '/locales',
-    queryParam: 'lang'
+    queryParam: 'lang',
+    defaultLocale: config.get('defaultLocale')
 });
 
 var app = express();
