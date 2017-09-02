@@ -1,8 +1,13 @@
 {
-	"siteTitle": "#PanSitzt",
-	"page.home.title": "Home",
-	"page.home.caption": "Willkommen auf #PanSitzt.de",
-	"page.home.text": "Hier entsteht eine lustige Seite für die allseits beliebten #PanSitzt Memes. Freut euch drauf und schaut später noch einmal vorbei :)",
-	"page.home.fig.caption": "Davon gibt es bald mehr...",
-	"page.home.fig.url": "https://pbs.twimg.com/media/DIPXQhQW0AAf4dX.jpg:large"
+  "siteTitle": "#PanSitzt",
+  "language": "Deutsch (German)",
+  "language.de": "Deutsch (German)",
+  "page.home.title": "Home",
+  "page.home.caption": "Willkommen auf #PanSitzt.de",
+  "page.home.text": "Hier entsteht eine lustige Seite für die allseits beliebten #PanSitzt Memes. Freut euch drauf und schaut später noch einmal vorbei :)",
+  "page.home.fig.caption": "Davon gibt es bald mehr...",
+  "page.home.fig.url": "https://pbs.twimg.com/media/DIPXQhQW0AAf4dX.jpg:large",
+  "page.imprint.title": "Impressum & Datenschutz",
+  "page.imprint.caption": "Impressum & Datenschutz",
+  "warning.noi18n": "Diese Seite wird nicht übersetzt und steht daher nur in folgenden Sprachen zur Verfügung: %s"
 }

@@ -7,7 +7,11 @@ function renderPage(res, page, title, data) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  renderPage(res, 'home', 'page.home.title');
+    renderPage(res, 'home', 'page.home.title');
+});
+
+router.get('/imprint', function(req, res, next) {
+    renderPage(res, 'imprint', 'page.imprint.title');
 });
 
 module.exports = router;
