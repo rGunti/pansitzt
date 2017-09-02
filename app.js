@@ -9,6 +9,13 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var i18n = require('i18n');
+i18n.configure({
+    locales: config.get('locales'),
+    directory: __dirname + '/locales',
+    queryParam: 'lang'
+});
+
 var app = express();
 
 var debug = require('debug')('pansitzt:APP');
@@ -25,6 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(i18n.init);
 
 app.use('/', index);
 app.use('/users', users);
