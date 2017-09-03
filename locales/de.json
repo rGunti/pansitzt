@@ -30,5 +30,6 @@
 	"page.profile.userinfo.twitterfollowingcount": "Folgt",
 	"page.profile.userinfo.twittermembersince": "Mitglied seit",
 	"page.profile_404.caption": "Profil nicht gefunden",
-	"page.profile_404.text": "Sorry, aber @%s hat offenbar (noch) kein #PanSitzt-Profil"
+	"page.profile_404.text": "Sorry, aber @%s hat offenbar (noch) kein #PanSitzt-Profil",
+	"page.error.title": "page.error.title"
 }
