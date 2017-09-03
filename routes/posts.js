@@ -22,34 +22,91 @@
  *
  */
 var Post = require('../db/models/Post');
+var PostVote = require('../db/models/PostVote');
 var Utils = require('./utils');
 var moment = require('moment');
 
 module.exports = function(app) {
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+
+        return res.status(401).send({ ok: false, error: res.__('api.response.noauth') });
+    }
+
+    function renderPostPage(req, res, post, author, vote) {
+        Utils.renderPage(req, res, 'post', post.title, {
+            post: post,
+            author: author,
+            vote: vote,
+            moment: moment
+        })
+    }
+
+    function render404Page(req, res, postID, err) {
+        Utils.renderPage__(req, res, 'post_404', 'page.post_404.title', { postID: postID, error: err }, 404)
+    }
+
     app.get('/p/:postID', function(req, res) {
         var postID = req.params.postID;
         Post.findById(postID)
             .then(function(post) {
                 post.getAuthor()
                     .then(function(author) {
-                        Utils.renderPage(req, res, 'post', post.title, {
-                            post: post,
-                            author: author,
-                            moment: moment
-                        })
+                        if (req.isAuthenticated()) {
+                            PostVote.findOne({
+                                where: {
+                                    postID: postID,
+                                    userID: req.user.twitterID
+                                }
+                            }).then(function(vote) {
+                                renderPostPage(req, res, post, author, vote);
+                            }).catch(function(err) {
+                                renderPostPage(req, res, post, author);
+                            });
+                        } else {
+                            renderPostPage(req, res, post, author);
+                        }
                     })
                     .catch(function(err) {
-                        Utils.renderPage__(req,
-                            res,
-                            'post_404',
-                            'page.post_404.title',
-                            { postID: postID, error: err }
-                        )
+                        render404Page(req, res, postID, err);
                     })
                 ;
             })
             .catch(function(err) {
-                Utils.renderPage__(req, res, 'post_404', 'page.post_404.title', { postID: postID, error: err })
+                render404Page(req, res, postID, err);
+            })
+        ;
+    });
+
+    app.post('/p/:postID/vote', isLoggedIn, function(req, res) {
+        var postID = req.params.postID;
+        Post.findById(postID)
+            .then(function(post) {
+                var userID = req.user.twitterID;
+                PostVote.findOne({
+                    where: {
+                        postID: postID,
+                        userID: userID
+                    }
+                }).then(function(vote) {
+                    // Voted, remove Vote
+                    vote.destroy();
+                    res.status(204).send();
+                }).catch(function(err) {
+                    // Not Voted, create Vote
+                    PostVote.create({
+                        postID: postID,
+                        userID: userID
+                    }).then(function(vote) {
+                        res.status(204).send();
+                    }).catch(function(err) {
+                        res.status(500).send({ ok: false, error: err })
+                    })
+                });
+            })
+            .catch(function(err) {
+                res.status(404).send({ ok: false, error: err })
             })
         ;
     });

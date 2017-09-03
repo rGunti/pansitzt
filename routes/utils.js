@@ -25,10 +25,16 @@
 var appVersion = require('../package.json').version;
 
 const Utils = {
-    renderPage__: function(req, res, page, title, data) {
+    renderPage__: function(req, res, page, title, data, statusCode) {
+        if (statusCode) {
+            res.status(statusCode);
+        }
         Utils.renderPage(req, res, page, res.__(title), data);
     },
-    renderPage: function(req, res, page, title, data) {
+    renderPage: function(req, res, page, title, data, statusCode) {
+        if (statusCode) {
+            res.status(statusCode);
+        }
         res.render('templates/main', {
             page: page,
             title: title,

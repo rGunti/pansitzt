@@ -22,38 +22,39 @@
  *
  */
 
-var laddaLike;
-$(document).ready(function() {
-    // Set Alertify position
-    alertify.logPosition("top right");
+const Sequelize = require('sequelize');
+const db = require('../dbpool');
+const User = require('./User');
+const Post = require('./Post');
 
-    laddaLike = Ladda.create(document.querySelector('.btn-post-like'));
-
-    $('.btn-post-like').click(function() {
-        var self = this;
-        var jSelf = $(self);
-        laddaLike.start();
-
-        var postID = jSelf.data('id');
-        if (!postID) { return; }
-
-        $.ajax({
-            url: '/p/' + postID + '/vote',
-            method: 'post'
-        }).done(function() {
-            if (jSelf.hasClass('btn-success')) { jSelf.removeClass('btn-success') }
-            else { jSelf.addClass('btn-success') }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            if (jqXHR.responseText) {
-                try {
-                    var errorInfo = JSON.parse(jqXHR.responseText);
-                    alertify.error(errorInfo.error);
-                } catch (err) {
-                    alertify.error('DERP!');
-                }
-            }
-        }).always(function() {
-            laddaLike.stop();
-        });
-    });
+const PostVote = db.define('post_votes', {
+    id: {
+        field: 'id',
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    postID: {
+        field: 'post_id',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    userID: {
+        field: 'user_id',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    createdAt: {
+        field: 'created_at',
+        type: Sequelize.DataTypes.TIME
+    },
+    updatedAt: {
+        field: 'updated_at',
+        type: Sequelize.DataTypes.TIME
+    }
 });
+
+PostVote.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
+PostVote.belongsTo(Post, { as: 'post', foreignKey: 'post_id' });
+
+module.exports = PostVote;

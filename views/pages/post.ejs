@@ -33,8 +33,13 @@
     </div>
     <div class="col-xl-2 col-md-4 col-sm-12 text-right">
         <div class="btn-group" role="group">
-            <a href="#" class="btn btn-secondary" title="<%= __('action.post.upvote') %>">
-                <span class="fa fa-fw fa-thumbs-o-up"></span>
+            <a href="#" class="btn btn-post-like ladda-button btn-secondary <%= (isLoggedIn ? (data.vote ? 'btn-success' : '') : 'disabled') %>"
+               data-id="<%= data.post.postID %>"
+               data-style="expand-left"
+               title="<%= __('action.post.upvote') %>">
+                <span class="ladda-label">
+                    <span class="fa fa-fw fa-thumbs-o-up"></span>
+                </span>
             </a>
 
             <div class="btn-group" role="group">
