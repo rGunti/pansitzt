@@ -66,7 +66,7 @@ module.exports = function (app, passport) {
     }
 
     app.get('/u', isLoggedIn, function(req, res) {
-        showUserInfo(req, res, req.user);
+        res.redirect('/u/' + req.user.handle);
     });
 
     app.get('/u/:handle', function(req, res) {

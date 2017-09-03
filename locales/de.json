@@ -12,7 +12,7 @@
 	"page.imprint.title": "Impressum & Datenschutz",
 	"page.imprint.caption": "Impressum & Datenschutz",
 	"warning.noi18n": "Diese Seite wird nicht übersetzt und steht daher nur in folgenden Sprachen zur Verfügung: %s",
-	"nav.login.twitter": "Login (mit Twitter)",
+	"nav.login.twitter": "Login (mit %s)",
 	"nav.logout": "Logout",
 	"page.profile.title": "Profil",
 	"page.profile.caption": "Profil",
