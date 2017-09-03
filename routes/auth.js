@@ -26,7 +26,7 @@ var Utils = require('./utils');
 
 module.exports = function (app, passport){
     app.get('/profile', isLoggedIn, function(req, res) {
-        Utils.renderPage(req, res, 'profile', 'page.profile.title');
+        Utils.renderPage__(req, res, 'profile', 'page.profile.title');
     });
 
     app.get('/logout', function(req, res) {

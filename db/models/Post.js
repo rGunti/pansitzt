@@ -35,7 +35,7 @@ const Post = db.define('posts', {
             is: ['[A-Za-z0-9]', 'i']
         }
     },
-    author: {
+    authorID: {
         field: 'user_id',
         type: Sequelize.DataTypes.STRING
     },
@@ -59,6 +59,7 @@ const Post = db.define('posts', {
     }
 });
 
-Post.belongsTo(User, { foreignKey: 'user_id' });
+Post.belongsTo(User, { as: 'author', foreignKey: 'user_id' });
+//Post.hasOne(User, { as: 'author', foreignKey: 'user_id' });
 
 module.exports = Post;

@@ -47,10 +47,10 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
-    <%- include('nav', { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser }) %>
+    <%- include('nav', { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser, locale: locale }) %>
 
     <div class="container">
-        <%- include('../pages/' + page, { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser }) %>
+        <%- include('../pages/' + page, { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser, locale: locale }) %>
     </div>
 
     <%- include('footer', { version: version }) %>
@@ -65,5 +65,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
+
+    <!-- Alerts -->
+    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="/js/custom.js"></script>
 </body>
 </html>

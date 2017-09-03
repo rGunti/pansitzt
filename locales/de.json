@@ -13,5 +13,14 @@
 	"nav.login.twitter": "Login (mit Twitter)",
 	"nav.logout": "Logout",
 	"page.profile.title": "Profil",
-	"page.profile.caption": "Profil"
+	"page.profile.caption": "Profil",
+	"page.post_404.title": "Post nicht gefunden",
+	"page.post_404.caption": "Post nicht gefunden",
+	"page.post_404.text": "Sorry, aber diesen Post gibt es hier (noch) nicht :(",
+	"page.post.properties.postedby": "gepostet von",
+	"page.post.properties.postedat": "am",
+	"dateformat.full": "DD.MM.YYYY HH:mm:ss",
+	"action.post.upvote": "Mag ich",
+	"action.post.share": "Post teilen",
+	"action.post.report": "Post melden"
 }

@@ -22,15 +22,7 @@
  *
  */
 
-body .container:first-of-type {
-    padding-top: 20px;
-}
-
-footer img.emoji {
-    width: 16px;
-}
-
-/* Alertify Logs appear below Nav Menu */
-.alertify-logs.top {
-    top: 60px;
-}
+$(document).ready(function() {
+    // Set Alertify position
+    alertify.logPosition("top right");
+});

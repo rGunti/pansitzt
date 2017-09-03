@@ -21,16 +21,36 @@
  * SOFTWARE.
  *
  */
+var Post = require('../db/models/Post');
+var Utils = require('./utils');
+var moment = require('moment');
 
-body .container:first-of-type {
-    padding-top: 20px;
-}
-
-footer img.emoji {
-    width: 16px;
-}
-
-/* Alertify Logs appear below Nav Menu */
-.alertify-logs.top {
-    top: 60px;
-}
+module.exports = function(app) {
+    app.get('/p/:postID', function(req, res) {
+        var postID = req.params.postID;
+        Post.findById(postID)
+            .then(function(post) {
+                post.getAuthor()
+                    .then(function(author) {
+                        Utils.renderPage(req, res, 'post', post.title, {
+                            post: post,
+                            author: author,
+                            moment: moment
+                        })
+                    })
+                    .catch(function(err) {
+                        Utils.renderPage__(req,
+                            res,
+                            'post_404',
+                            'page.post_404.title',
+                            { postID: postID, error: err }
+                        )
+                    })
+                ;
+            })
+            .catch(function(err) {
+                Utils.renderPage__(req, res, 'post_404', 'page.post_404.title', { postID: postID, error: err })
+            })
+        ;
+    });
+};

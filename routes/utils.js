@@ -25,14 +25,18 @@
 var appVersion = require('../package.json').version;
 
 const Utils = {
+    renderPage__: function(req, res, page, title, data) {
+        Utils.renderPage(req, res, page, res.__(title), data);
+    },
     renderPage: function(req, res, page, title, data) {
         res.render('templates/main', {
             page: page,
-            title: res.__(title),
+            title: title,
             data: data,
             isLoggedIn: req.isAuthenticated(),
             loggedInUser: req.user || null,
-            version: appVersion
+            version: appVersion,
+            locale: req.getLocale()
         })
     }
 };
