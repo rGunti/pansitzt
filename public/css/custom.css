@@ -34,3 +34,11 @@ footer img.emoji {
 .alertify-logs.top {
     top: 60px;
 }
+
+.btn {
+    cursor: pointer;
+}
+
+.hidden-on-startup {
+    display: none;
+}

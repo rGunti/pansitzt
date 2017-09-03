@@ -25,13 +25,21 @@ var Post = require('../db/models/Post');
 var PostVote = require('../db/models/PostVote');
 var Utils = require('./utils');
 var moment = require('moment');
+const allowedHosts = require('config').get('allowedHosts');
 
 module.exports = function(app) {
-    function isLoggedIn(req, res, next) {
+    function isLoggedInApi(req, res, next) {
         if (req.isAuthenticated())
             return next();
 
         return res.status(401).send({ ok: false, error: res.__('api.response.noauth') });
+    }
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+
+        return res.redirect('/');
     }
 
     function renderPostPage(req, res, post, author, vote) {
@@ -46,6 +54,17 @@ module.exports = function(app) {
     function render404Page(req, res, postID, err) {
         Utils.renderPage__(req, res, 'post_404', 'page.post_404.title', { postID: postID, error: err }, 404)
     }
+
+    app.get('/p', isLoggedIn, function(req, res) {
+        Utils.renderPage__(req, res, 'upload_post', 'page.uploadpost.title', {
+            allowedHosts: allowedHosts
+        });
+    });
+
+    app.post('/p', isLoggedInApi, function(req, res) {
+        // TODO: Implement this
+        res.status(500).send({ ok: false, error: res.__('api.response.notimplemented', 'POST /p') });
+    });
 
     app.get('/p/:postID', function(req, res) {
         var postID = req.params.postID;
@@ -79,7 +98,7 @@ module.exports = function(app) {
         ;
     });
 
-    app.post('/p/:postID/vote', isLoggedIn, function(req, res) {
+    app.post('/p/:postID/vote', isLoggedInApi, function(req, res) {
         var postID = req.params.postID;
         Post.findById(postID)
             .then(function(post) {

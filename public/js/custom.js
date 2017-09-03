@@ -23,12 +23,27 @@
  */
 
 var laddaLike;
+var laddaSubmit;
+var laddaCheck;
+
+function setupLaddaButton(selector) {
+    if ($(selector).length > 0) {
+        return Ladda.create(document.querySelector(selector));
+    } else {
+        return null;
+    }
+}
+
 $(document).ready(function() {
     // Set Alertify position
     alertify.logPosition("top right");
 
-    laddaLike = Ladda.create(document.querySelector('.btn-post-like'));
+    // Setup Ladda Buttons
+    laddaLike = setupLaddaButton('.btn-post-like');
+    laddaSubmit = setupLaddaButton('#uploadURLSubmitButton');
+    laddaCheck = setupLaddaButton('#uploadURLTestButton');
 
+    // jQuery Setup
     $('.btn-post-like').click(function() {
         var self = this;
         var jSelf = $(self);
@@ -56,4 +71,147 @@ $(document).ready(function() {
             laddaLike.stop();
         });
     });
+
+    function extractHostname(url) {
+        var hostname;
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
+
+    function testImage(url, timeoutT) {
+        return new Promise(function (resolve, reject) {
+            var timeout = timeoutT || 5000;
+            var timer, img = new Image();
+            img.onerror = img.onabort = function () {
+                clearTimeout(timer);
+                reject("error");
+            };
+            img.onload = function () {
+                clearTimeout(timer);
+                resolve("success");
+            };
+            timer = setTimeout(function () {
+                // reset .src to invalid URL so it stops previous
+                // loading, but doesn't trigger new load
+                img.src = "//!!!!/test.jpg";
+                reject("timeout");
+            }, timeout);
+            img.src = url;
+        });
+    }
+
+    function checkUploadForm(ignoreTitle) {
+        $('form .text-danger').hide();
+        $('#uploadURL').removeClass('is-invalid');
+        $('#uploadPostTitle').removeClass('is-invalid');
+        $('#uploadURLImageValid').hide();
+
+        var url = $('#uploadURL').val();
+        var title = $('#uploadPostTitle').val();
+
+        var urlValid = false;
+        var titleValid = false;
+
+        if (url) {
+            var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            var regex = new RegExp(urlRegex);
+
+            if (!url.match(regex)) {
+                $('#uploadURL').addClass('is-invalid');
+                $('#uploadURLInvalidURL').show();
+            } else {
+                var hostname = extractHostname(url);
+                if (ALLOWED_HOSTS.indexOf(hostname) >= 0) {
+                    urlValid = true;
+                } else {
+                    $('#uploadURLInvalidHost').show();
+                }
+            }
+        } else {
+            $('#uploadURL').addClass('is-invalid');
+            $('#uploadURLEmpty').show();
+        }
+
+        if (!ignoreTitle) {
+            if (title) {
+                titleValid = true;
+            } else {
+                $('#uploadPostTitle').addClass('is-invalid');
+                $('#uploadPostTitleEmpty').show();
+            }
+        }
+
+        return {
+            url: url,
+            title: title,
+            valid: urlValid && (ignoreTitle ? true : titleValid)
+        }
+    }
+
+    $('#uploadForm').submit(function(e) {
+        e.preventDefault();
+
+        var formData = checkUploadForm();
+        if (!formData.valid) { return; }
+        testImage(formData.url)
+            .then(function() {
+                $.ajax({
+                    url: '/p',
+                    method: 'post',
+                    data: formData
+                }).done(function(data) {
+                    window.location.href = '/p/' + data.postID;
+                }).fail(function(jqXHR) {
+                    if (jqXHR.responseText) {
+                        try {
+                            var errorInfo = JSON.parse(jqXHR.responseText);
+                            alertify.error(errorInfo.error);
+                        } catch (err) {
+                            alertify.error('DERP!');
+                        }
+                    }
+                    laddaSubmit.stop();
+                }).always(function() {
+                    laddaSubmit.stop();
+                });
+            })
+            .catch(function() {
+                $('#uploadURLInvalidType').show();
+                laddaCheck.stop();
+            });
+    });
+
+    $('#uploadURLTestButton').click(function(e) {
+        e.preventDefault();
+
+        var formData = checkUploadForm(true);
+        if (formData.valid) {
+            laddaCheck.start();
+            testImage(formData.url)
+                .then(function() {
+                    laddaCheck.stop();
+                    $('#uploadURLImageValid').show();
+                })
+                .catch(function() {
+                    $('#uploadURLInvalidType').show();
+                    laddaCheck.stop();
+                });
+        }
+    });
+
+    $('.hidden-on-startup').hide();
+    $('.hidden-on-startup').removeClass('hidden-on-startup');
 });

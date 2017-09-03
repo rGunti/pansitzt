@@ -38,6 +38,16 @@
                    href="https://twitter.com/xPandorya">
                     @xPandorya</a>
             </li>
+
+            <% if (isLoggedIn) { %>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/p">
+                    <span class="fa fa-fw fa-upload"></span>
+                    <%= __('page.uploadpost.shorttitle') %>
+                </a>
+            </li>
+            <% } %>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
             <% if (isLoggedIn) { %>

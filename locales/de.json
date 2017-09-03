@@ -31,5 +31,21 @@
 	"page.profile.userinfo.twittermembersince": "Mitglied seit",
 	"page.profile_404.caption": "Profil nicht gefunden",
 	"page.profile_404.text": "Sorry, aber @%s hat offenbar (noch) kein #PanSitzt-Profil",
-	"page.error.title": "page.error.title"
+	"page.error.title": "page.error.title",
+	"page.uploadpost.title": "Neues #PanSitzt-Bild posten",
+	"page.uploadpost.caption": "Neues #PanSitzt-Bild posten",
+	"page.uploadpost.introduction": "Wenn Du ein Bild auf Twitter, Imgur oder einer anderen Plattform hochgeladen hast, kopiere einfach die URL hier rein und poste es.",
+	"page.uploadpost.shorttitle": "Posten",
+	"page.uploadpost.form.url": "URL",
+	"page.uploadpost.form.url.help": "Dein Post muss auf einer der folgenden Seiten gepostet sein:",
+	"page.uploadpost.form.submit": "Posten",
+	"page.uploadpost.form.title": "Post-Titel",
+	"page.uploadpost.form.required": "Feld wird benötigt",
+	"page.uploadpost.form.validation.invalidurl": "Du hast keine URL eingegeben. Bitte überprüfe Deine Eingabe.",
+	"page.uploadpost.form.validation.empty": "Dieses Feld wird benötigt.",
+	"page.uploadpost.form.checkurl": "URL prüfen",
+	"page.uploadpost.form.validation.invalidhost": "Die URL verweist auf einen nicht erlaubten Service. Bitte korrigiere die URL.",
+	"page.uploadpost.form.validation.invalidtype": "Die URL verweist nicht auf ein Bild.",
+	"page.uploadpost.form.validation.imagevalid": "Sieht gut aus! Das kannst Du posten :D",
+	"api.response.notimplemented": "Diese Funktion wurde noch nicht implementiert: %s"
 }

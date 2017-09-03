@@ -14,5 +14,9 @@
     "consumerKey": "G9LS0zw2B44ucLotXH8KS9xhB",
     "consumerSecret": "iAJ4moHvljoxFXY4vrrsS3ZYXsyvLbEMIpsz7zTJD9WkrTmiJV",
     "callbackURL": "http://127.0.0.1:1337/auth/twitter/callback"
-  }
+  },
+  "allowedHosts": [
+    "pbs.twimg.com",
+    "i.imgur.com"
+  ]
 }

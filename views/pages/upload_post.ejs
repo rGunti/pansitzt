@@ -1,0 +1,110 @@
+<!--
+  ~ Copyright (c) 2017, Raphael "rGunti" Guntersweiler
+  ~ Licensed under MIT
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  ~
+  -->
+
+<h1><%= __('page.uploadpost.caption') %></h1>
+<p><%= __('page.uploadpost.introduction') %></p>
+<form id="uploadForm" action="/p" method="post">
+    <div class="form-group row">
+        <label for="uploadURL" class="col-sm-3 col-md-2 col-form-label">
+            <%= __('page.uploadpost.form.url') %>
+            <span class="text-warning">*</span>
+        </label>
+        <div class="col-sm-5 col-md-7">
+            <input type="text"
+                   class="form-control"
+                   id="uploadURL"
+                   aria-describedby="uploadURLHelp">
+            <small id="uploadURLHelp" class="form-text text-muted">
+                <%= __('page.uploadpost.form.url.help') %><br>
+                <%= data.allowedHosts.join(', ') %>
+            </small>
+            <small id="uploadURLEmpty" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.empty') %>
+            </small>
+            <small id="uploadURLInvalidURL" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.invalidurl') %>
+            </small>
+            <small id="uploadURLInvalidHost" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.invalidhost') %>
+            </small>
+            <small id="uploadURLInvalidType" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.invalidtype') %>
+            </small>
+            <small id="uploadURLImageValid" class="form-text text-success hidden-on-startup">
+                <span class="fa fa-fw fa-check"></span>
+                <%= __('page.uploadpost.form.validation.imagevalid') %>
+            </small>
+        </div>
+        <div class="col-sm-4 col-md-3 text-right">
+            <button type="button"
+                    data-style="slide-right"
+                    id="uploadURLTestButton"
+                    class="btn btn-success">
+                <span class="fa fa-fw fa-check"></span>
+                <%= __('page.uploadpost.form.checkurl') %>
+            </button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="uploadPostTitle" class="col-sm-3 col-md-2 col-form-label">
+            <%= __('page.uploadpost.form.title') %>
+            <span class="text-warning">*</span>
+        </label>
+        <div class="col-sm-9 col-md-10">
+            <input type="text"
+                   class="form-control"
+                   id="uploadPostTitle">
+            <small id="uploadPostTitleEmpty" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.empty') %>
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 col-md-2"></div>
+        <div class="col-sm-9 col-md-10">
+            <span class="text-warning">
+                *
+                <%= __('page.uploadpost.form.required') %>
+            </span>
+        </div>
+    </div>
+    <div class="form-group row text-right">
+        <div class="col-sm-12">
+            <button type="submit"
+                    data-style="expand-left"
+                    id="uploadURLSubmitButton"
+                    class="btn btn-primary">
+                <span class="fa fa-fw fa-upload"></span>
+                <%= __('page.uploadpost.form.submit') %>
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>var ALLOWED_HOSTS = <%- JSON.stringify(data.allowedHosts) %>;</script>
