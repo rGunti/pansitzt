@@ -23,6 +23,7 @@
   -->
 
 <!DOCTYPE html>
+<% utils.moment.locale(locale); %>
 <html>
 <head>
     <title><%= title %> [ <%= __('siteTitle') %> ]</title>
@@ -60,7 +61,7 @@
     <%- include('nav', { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser, locale: locale }) %>
 
     <div class="container">
-        <%- include('../pages/' + page, { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser, locale: locale }) %>
+        <%- include('../pages/' + page, { title: title, page: page, data: data, isLoggedIn: isLoggedIn, loggedInUser: loggedInUser, locale: locale, utils: utils }) %>
     </div>
 
     <%- include('footer', { version: version }) %>

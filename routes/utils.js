@@ -23,6 +23,7 @@
  */
 
 var appVersion = require('../package.json').version;
+var moment = require('moment');
 
 const Utils = {
     renderPage__: function(req, res, page, title, data, statusCode) {
@@ -42,7 +43,10 @@ const Utils = {
             isLoggedIn: req.isAuthenticated(),
             loggedInUser: req.user || null,
             version: appVersion,
-            locale: req.getLocale()
+            locale: req.getLocale(),
+            utils: {
+                moment: moment
+            }
         })
     }
 };

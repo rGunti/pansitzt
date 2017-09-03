@@ -38,3 +38,8 @@ a:hover {
 pre {
     color: greenyellow;
 }
+
+.img-thumbnail {
+    background-color: #343a40 !important;
+    border: 1px solid #343a40;
+}

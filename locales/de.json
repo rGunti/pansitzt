@@ -2,6 +2,8 @@
 	"siteTitle": "#PanSitzt",
 	"language": "Deutsch (German)",
 	"language.de": "Deutsch (German)",
+	"dateformat.full": "DD.MM.YYYY HH:mm:ss",
+	"dateformat.dateonly": "DD.MM.YYYY",
 	"page.home.title": "Home",
 	"page.home.caption": "Willkommen auf #PanSitzt.de",
 	"page.home.text": "Hier entsteht eine lustige Seite für die allseits beliebten #PanSitzt Memes. Freut euch drauf und schaut später noch einmal vorbei :)",
@@ -19,9 +21,14 @@
 	"page.post_404.text": "Sorry, aber diesen Post gibt es hier (noch) nicht :(",
 	"page.post.properties.postedby": "gepostet von",
 	"page.post.properties.postedat": "am",
-	"dateformat.full": "DD.MM.YYYY HH:mm:ss",
 	"action.post.upvote": "Mag ich",
 	"action.post.share": "Post teilen",
 	"action.post.report": "Post melden",
-	"api.response.noauth": "Du bist nicht (mehr) angemeldet."
+	"api.response.noauth": "Du bist nicht (mehr) angemeldet.",
+	"page.profile.userinfo.membersince": "#PanSitzt-Mitglied seit",
+	"page.profile.userinfo.twitterfollowercount": "Follower",
+	"page.profile.userinfo.twitterfollowingcount": "Folgt",
+	"page.profile.userinfo.twittermembersince": "Mitglied seit",
+	"page.profile_404.caption": "Profil nicht gefunden",
+	"page.profile_404.text": "Sorry, aber @%s hat offenbar (noch) kein #PanSitzt-Profil"
 }

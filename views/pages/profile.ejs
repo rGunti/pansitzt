@@ -22,5 +22,65 @@
   ~
   -->
 
-<h2><%= __('page.profile.caption') %></h2>
-<pre><%- JSON.stringify(loggedInUser) %></pre>
+<div class="row">
+    <div class="col-md-3">
+        <h2>
+            <%= data.user.displayName %><br>
+            <small>
+                <a href="http://twitter.com/<%= data.user.handle %>"
+                   target="_blank">
+                    @<%= data.user.handle %>
+                </a>
+            </small>
+        </h2>
+        <img class="img-thumbnail"
+             src="<%= data.profileImage.replace('_normal', '') %>">
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-4">
+                <dl>
+                    <dt><%= __('page.profile.userinfo.membersince') %></dt>
+                    <dd>
+                        <%= utils.moment(data.user.createdAt).format(__('dateformat.dateonly')) %>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <dl>
+                    <dt>
+                        <%= __('page.profile.userinfo.twittermembersince') %>
+                        <span class="fa fa-fw fa-twitter"></span>
+                    </dt>
+                    <!-- Sat Sep 02 23:43:36 +0000 2017 -->
+                    <dd><%= utils.moment(data.twitterUser.created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format(__('dateformat.dateonly')) %></dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl>
+                    <dt>
+                        <%= __('page.profile.userinfo.twitterfollowercount') %>
+                        <span class="fa fa-fw fa-twitter"></span>
+                    </dt>
+                    <dd><%= data.twitterUser.followers_count %></dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl>
+                    <dt>
+                        <%= __('page.profile.userinfo.twitterfollowingcount') %>
+                        <span class="fa fa-fw fa-twitter"></span>
+                    </dt>
+                    <dd><%= data.twitterUser.friends_count %></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p><%= data.twitterUser.description %></p>
+            </div>
+        </div>
+    </div>
+</div>

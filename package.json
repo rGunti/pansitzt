@@ -19,6 +19,7 @@
     "ejs": "~2.5.6",
     "express": "~4.15.2",
     "express-session": "^1.15.5",
+    "get-twitter-bearer-token": "^1.0.0",
     "i18n": "^0.8.3",
     "moment": "^2.18.1",
     "morgan": "~1.8.1",
@@ -28,6 +29,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "sequelize": "^4.8.0",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "twitter": "^1.7.1"
   }
 }

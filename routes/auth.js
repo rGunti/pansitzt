@@ -23,10 +23,63 @@
  */
 
 var Utils = require('./utils');
+var Twitter = require('twitter');
+var getBearerToken = require('get-twitter-bearer-token');
+var User = require('../db/models/User');
 
-module.exports = function (app, passport){
-    app.get('/profile', isLoggedIn, function(req, res) {
-        Utils.renderPage__(req, res, 'profile', 'page.profile.title');
+var twitterConfig = require('config').get('twitter');
+var debug = require('debug')('pansitzt:routes/auth');
+
+module.exports = function (app, passport) {
+    var client;
+    getBearerToken(
+        twitterConfig.consumerKey,
+        twitterConfig.consumerSecret,
+        function(err, res) {
+            if (err) {
+                debug('Error while getting Bearer Token!', err);
+            } else {
+                client = new Twitter({
+                    consumer_key: twitterConfig.consumerKey,
+                    consumer_secret: twitterConfig.consumerSecret,
+                    bearer_token: res.body.access_token
+                });
+            }
+        }
+    );
+
+    function showUserInfo(req, res, user) {
+        client.get(
+            'users/show',
+            { user_id: user.twitterID }
+        ).then(function(userInfo) {
+            Utils.renderPage__(req, res, 'profile', 'page.profile.title', {
+                profileImage: userInfo.profile_image_url_https,
+                user: user,
+                twitterUser: userInfo
+            });
+        }).catch(function(err) {
+            Utils.renderPage__(req, res, 'profile', 'page.profile.title', {
+                user: req.user
+            });
+        });
+    }
+
+    app.get('/u', isLoggedIn, function(req, res) {
+        showUserInfo(req, res, req.user);
+    });
+
+    app.get('/u/:handle', function(req, res) {
+        var twitterHandle = req.params.handle;
+        User.findOne({
+            where: { handle: twitterHandle }
+        }).then(function(user) {
+            showUserInfo(req, res, user);
+        }).catch(function(err) {
+            Utils.renderPage__(req, res, 'profile_404', 'page.profile.title', {
+                userHandle: twitterHandle
+            }, 404);
+        });
     });
 
     app.get('/logout', function(req, res) {
@@ -38,7 +91,7 @@ module.exports = function (app, passport){
 
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
-            successRedirect: '/profile',
+            successRedirect: '/u',
             failureRedirect: '/'
         })
     );
