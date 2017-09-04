@@ -47,5 +47,13 @@
 	"page.uploadpost.form.validation.invalidhost": "Die URL verweist auf einen nicht erlaubten Service. Bitte korrigiere die URL.",
 	"page.uploadpost.form.validation.invalidtype": "Die URL verweist nicht auf ein Bild.",
 	"page.uploadpost.form.validation.imagevalid": "Sieht gut aus! Das kannst Du posten :D",
-	"api.response.notimplemented": "Diese Funktion wurde noch nicht implementiert: %s"
+	"api.response.notimplemented": "Diese Funktion wurde noch nicht implementiert: %s",
+	"api.validation.fieldempty": "Feld \"{{field}}\" ist leer.",
+	"api.validation.fieldshort": "Feld \"{{field}}\" ist zu kurz, benötigt werden min. {{len}} Zeichen.",
+	"api.validation.fieldurl": "Feld \"{{field}}\" muss eine gültige URL enthalten.",
+	"api.validation.unallowedhost": "Dieser Host ist nicht erlaubt: {{host}}",
+	"api.validation.notanimage": "Die angegebene URL verweist nicht auf ein Bild.",
+	"api.response.dbfail": "Bei einer Datenbank-Aktion ist ein Fehler aufgetreten.",
+	"object.post.title": "Post-Titel",
+	"object.post.url": "URL"
 }

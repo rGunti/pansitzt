@@ -55,6 +55,14 @@ module.exports = function(app) {
         Utils.renderPage__(req, res, 'post_404', 'page.post_404.title', { postID: postID, error: err }, 404)
     }
 
+    function renderApiMessages(req, res, messages) {
+        var errorMessages = Utils.renderMessages(req, messages);
+        res.status(400).send({
+            ok: false,
+            error: errorMessages
+        });
+    }
+
     app.get('/p', isLoggedIn, function(req, res) {
         Utils.renderPage__(req, res, 'upload_post', 'page.uploadpost.title', {
             allowedHosts: allowedHosts
@@ -62,8 +70,37 @@ module.exports = function(app) {
     });
 
     app.post('/p', isLoggedInApi, function(req, res) {
-        // TODO: Implement this
-        res.status(500).send({ ok: false, error: res.__('api.response.notimplemented', 'POST /p') });
+        var post = {
+            postID: '',
+            title: req.body.title,
+            authorID: req.user.twitterID,
+            source: req.body.url
+        };
+
+        var messages = [];
+        if (Utils.validatePost(post, messages)) {
+            Utils.checkUrlImage(post.source, messages, function() {
+                Utils.checkNewPostID(post, function(newPostID) {
+                    post.postID = newPostID;
+                    Post.create(post)
+                        .then(function(p) {
+                            res.status(200).send({
+                                ok: true,
+                                postID: p.postID
+                            });
+                        })
+                        .catch(function(e) {
+                            messages.push('api.response.dbfail');
+                            renderApiMessages(req, res, messages);
+                        })
+                    ;
+                });
+            }, function(messages) {
+                renderApiMessages(req, res, messages);
+            });
+        } else {
+            renderApiMessages(req, res, messages);
+        }
     });
 
     app.get('/p/:postID', function(req, res) {

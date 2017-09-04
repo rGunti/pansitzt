@@ -42,3 +42,7 @@ footer img.emoji {
 .hidden-on-startup {
     display: none;
 }
+
+.post-figure figure img {
+    width: 100%;
+}

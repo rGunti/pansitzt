@@ -126,20 +126,21 @@ $(document).ready(function() {
         var titleValid = false;
 
         if (url) {
-            var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-            var regex = new RegExp(urlRegex);
-
-            if (!url.match(regex)) {
-                $('#uploadURL').addClass('is-invalid');
-                $('#uploadURLInvalidURL').show();
-            } else {
-                var hostname = extractHostname(url);
-                if (ALLOWED_HOSTS.indexOf(hostname) >= 0) {
-                    urlValid = true;
-                } else {
-                    $('#uploadURLInvalidHost').show();
-                }
-            }
+            //var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            //var regex = new RegExp(urlRegex);
+            //
+            //if (!url.match(regex)) {
+            //    $('#uploadURL').addClass('is-invalid');
+            //    $('#uploadURLInvalidURL').show();
+            //} else {
+            //    var hostname = extractHostname(url);
+            //    if (ALLOWED_HOSTS.indexOf(hostname) >= 0) {
+            //        urlValid = true;
+            //    } else {
+            //        $('#uploadURLInvalidHost').show();
+            //    }
+            //}
+            urlValid = true;
         } else {
             $('#uploadURL').addClass('is-invalid');
             $('#uploadURLEmpty').show();
@@ -166,8 +167,11 @@ $(document).ready(function() {
 
         var formData = checkUploadForm();
         if (!formData.valid) { return; }
-        testImage(formData.url)
-            .then(function() {
+
+        laddaSubmit.start();
+
+        //testImage(formData.url)
+        //    .then(function() {
                 $.ajax({
                     url: '/p',
                     method: 'post',
@@ -178,7 +182,13 @@ $(document).ready(function() {
                     if (jqXHR.responseText) {
                         try {
                             var errorInfo = JSON.parse(jqXHR.responseText);
-                            alertify.error(errorInfo.error);
+                            if (errorInfo.error instanceof Array) {
+                                errorInfo.error.forEach(function(item, i, a) {
+                                    alertify.error(item);
+                                });
+                            } else {
+                                alertify.error(errorInfo.error);
+                            }
                         } catch (err) {
                             alertify.error('DERP!');
                         }
@@ -187,11 +197,11 @@ $(document).ready(function() {
                 }).always(function() {
                     laddaSubmit.stop();
                 });
-            })
-            .catch(function() {
-                $('#uploadURLInvalidType').show();
-                laddaCheck.stop();
-            });
+        //    })
+        //    .catch(function() {
+        //        $('#uploadURLInvalidType').show();
+        //        laddaCheck.stop();
+        //    });
     });
 
     $('#uploadURLTestButton').click(function(e) {
