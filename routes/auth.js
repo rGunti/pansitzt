@@ -26,6 +26,7 @@ var Utils = require('./utils');
 var Twitter = require('twitter');
 var getBearerToken = require('get-twitter-bearer-token');
 var User = require('../db/models/User');
+var VUser = require('../db/models/VUser');
 
 var twitterConfig = require('config').get('twitter');
 var debug = require('debug')('pansitzt:routes/auth');
@@ -71,10 +72,10 @@ module.exports = function (app, passport) {
 
     app.get('/u/:handle', function(req, res) {
         var twitterHandle = req.params.handle;
-        User.findOne({
+        VUser.findOne({
             where: { handle: twitterHandle }
-        }).then(function(user) {
-            showUserInfo(req, res, user);
+        }).then(function(vuser) {
+            showUserInfo(req, res, vuser);
         }).catch(function(err) {
             Utils.renderPage__(req, res, 'profile_404', 'page.profile.title', {
                 userHandle: twitterHandle

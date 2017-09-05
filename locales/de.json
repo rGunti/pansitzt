@@ -26,6 +26,7 @@
 	"action.post.report": "Post melden",
 	"api.response.noauth": "Du bist nicht (mehr) angemeldet.",
 	"page.profile.userinfo.membersince": "#PanSitzt-Mitglied seit",
+	"page.profile.userinfo.postcount": "Posts",
 	"page.profile.userinfo.twitterfollowercount": "Follower",
 	"page.profile.userinfo.twitterfollowingcount": "Folgt",
 	"page.profile.userinfo.twittermembersince": "Mitglied seit",

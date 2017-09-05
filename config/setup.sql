@@ -36,3 +36,16 @@ CREATE TABLE post_votes
   CONSTRAINT post_votes_posts_id_fk FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT post_votes_users_twitter_id_fk FOREIGN KEY (user_id) REFERENCES users (twitter_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Profile View
+CREATE VIEW v_users AS
+  SELECT
+    u.twitter_id AS twitter_id,
+    u.handle AS handle,
+    u.display_name AS display_name,
+    (SELECT COUNT(p.id) FROM posts p WHERE p.user_id = u.twitter_id) AS post_count,
+    u.created_at AS created_at,
+    u.updated_at AS updated_at
+  FROM
+    users u
+;
