@@ -49,6 +49,7 @@ footer img.emoji {
 
 .post-list .post-list-item {
     padding-bottom: 25px;
+    height: 500px;
 }
 
 .post-list-post-title {
@@ -64,5 +65,5 @@ footer img.emoji {
 }
 
 .post-list img {
-    height: 500px;
+    max-height: 500px;
 }
