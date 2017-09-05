@@ -51,6 +51,19 @@ module.exports = function(passport) {
         process.nextTick(function() {
             User.findById(profile.id).then(function(user) {
                 if (user) {
+                    var userNeedsUpdate = false;
+                    if (user.handle !== profile.username) {
+                        user.handle = profile.username;
+                        userNeedsUpdate = true;
+                    }
+                    if (user.displayName !== profile.displayName) {
+                        user.displayName = profile.displayName;
+                        userNeedsUpdate = true;
+                    }
+                    if (userNeedsUpdate) {
+                        user.save();
+                    }
+
                     done(null, user);
                 } else {
                     var newUser = new User();
