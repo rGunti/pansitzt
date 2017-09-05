@@ -39,15 +39,16 @@ $(document).ready(function() {
     alertify.logPosition("top right");
 
     // Setup Ladda Buttons
-    laddaLike = setupLaddaButton('.btn-post-like');
+    //laddaLike = setupLaddaButton('.btn-post-like');
     laddaSubmit = setupLaddaButton('#uploadURLSubmitButton');
     laddaCheck = setupLaddaButton('#uploadURLTestButton');
 
     // jQuery Setup
-    $('.btn-post-like').click(function() {
+    $('.btn-post-like').click(function(e) {
         var self = this;
         var jSelf = $(self);
-        laddaLike.start();
+        var laddaSelf = Ladda.create(self);
+        laddaSelf.start();
 
         var postID = jSelf.data('id');
         if (!postID) { return; }
@@ -55,9 +56,13 @@ $(document).ready(function() {
         $.ajax({
             url: '/p/' + postID + '/vote',
             method: 'post'
-        }).done(function() {
+        }).done(function(data) {
+            console.log(data, self, jSelf);
             if (jSelf.hasClass('btn-success')) { jSelf.removeClass('btn-success') }
             else { jSelf.addClass('btn-success') }
+
+            var voteCountLabel = $('.post-vote-count', jSelf);
+            voteCountLabel.html(data.voteCount);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.responseText) {
                 try {
@@ -68,7 +73,7 @@ $(document).ready(function() {
                 }
             }
         }).always(function() {
-            laddaLike.stop();
+            laddaSelf.stop();
         });
     });
 

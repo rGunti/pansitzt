@@ -22,6 +22,7 @@
  *
  */
 var Post = require('../db/models/Post');
+var VPost = require('../db/models/VPost');
 var PostVote = require('../db/models/PostVote');
 var Utils = require('./utils');
 var moment = require('moment');
@@ -105,7 +106,7 @@ module.exports = function(app) {
 
     app.get('/p/:postID', function(req, res) {
         var postID = req.params.postID;
-        Post.findById(postID)
+        VPost.findById(postID)
             .then(function(post) {
                 post.getAuthor()
                     .then(function(author) {
@@ -137,33 +138,53 @@ module.exports = function(app) {
 
     app.post('/p/:postID/vote', isLoggedInApi, function(req, res) {
         var postID = req.params.postID;
-        Post.findById(postID)
-            .then(function(post) {
-                var userID = req.user.twitterID;
-                PostVote.findOne({
-                    where: {
-                        postID: postID,
-                        userID: userID
-                    }
-                }).then(function(vote) {
-                    // Voted, remove Vote
-                    vote.destroy();
-                    res.status(204).send();
-                }).catch(function(err) {
-                    // Not Voted, create Vote
-                    PostVote.create({
-                        postID: postID,
-                        userID: userID
+        setTimeout(function() {
+            Post.findById(postID)
+                .then(function(post) {
+                    var userID = req.user.twitterID;
+                    PostVote.findOne({
+                        where: {
+                            postID: postID,
+                            userID: userID
+                        }
                     }).then(function(vote) {
-                        res.status(204).send();
+                        // Voted, remove Vote
+                        vote.destroy();
+                        VPost.findOne({
+                            where: { postID: postID }
+                        }).then(function(post) {
+                            res.status(200).send({
+                                ok: true,
+                                voteCount: post.voteCount
+                            });
+                        }).catch(function(err) {
+                            res.status(500).send({ ok: false, error: err })
+                        });
                     }).catch(function(err) {
-                        res.status(500).send({ ok: false, error: err })
-                    })
-                });
-            })
-            .catch(function(err) {
-                res.status(404).send({ ok: false, error: err })
-            })
-        ;
+                        // Not Voted, create Vote
+                        PostVote.create({
+                            postID: postID,
+                            userID: userID
+                        }).then(function(vote) {
+                            VPost.findOne({
+                                where: { postID: postID }
+                            }).then(function(post) {
+                                res.status(200).send({
+                                    ok: true,
+                                    voteCount: post.voteCount
+                                });
+                            }).catch(function(err) {
+                                res.status(500).send({ ok: false, error: err })
+                            });
+                        }).catch(function(err) {
+                            res.status(500).send({ ok: false, error: err })
+                        })
+                    });
+                })
+                .catch(function(err) {
+                    res.status(404).send({ ok: false, error: err })
+                })
+            ;
+        }, 1000);
     });
 };

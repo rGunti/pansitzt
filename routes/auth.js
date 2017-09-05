@@ -27,6 +27,9 @@ var Twitter = require('twitter');
 var getBearerToken = require('get-twitter-bearer-token');
 var User = require('../db/models/User');
 var VUser = require('../db/models/VUser');
+var Post = require('../db/models/Post');
+var VPost = require('../db/models/VPost');
+var PostVote = require('../db/models/PostVote');
 
 var twitterConfig = require('config').get('twitter');
 var debug = require('debug')('pansitzt:routes/auth');
@@ -66,6 +69,16 @@ module.exports = function (app, passport) {
         });
     }
 
+    function renderPostList(req, res, userPost, posts, votes) {
+        Utils.renderPage(req, res,
+            'post_list', req.__('page.post_list_by_user.title', userPost),
+            {
+                posts: posts,
+                votes: votes,
+                byUser: userPost
+            });
+    }
+
     app.get('/u', isLoggedIn, function(req, res) {
         res.redirect('/u/' + req.user.handle);
     });
@@ -76,6 +89,45 @@ module.exports = function (app, passport) {
             where: { handle: twitterHandle }
         }).then(function(vuser) {
             showUserInfo(req, res, vuser);
+        }).catch(function(err) {
+            Utils.renderPage__(req, res, 'profile_404', 'page.profile.title', {
+                userHandle: twitterHandle
+            }, 404);
+        });
+    });
+
+    app.get('/u/:handle/posts', function(req, res) {
+        var twitterHandle = req.params.handle;
+        VUser.findOne({
+            where: { handle: twitterHandle }
+        }).then(function(vuser) {
+            VPost.findAll({
+                where: { authorID: vuser.twitterID },
+                order: [ [ 'created_at', 'DESC' ] ],
+                offset: 0,
+                limit: 10
+            }).then(function(posts) {
+                var idList = [];
+                var postMap = {};
+                for (var i in posts) {
+                    idList.push(posts[i].postID);
+                    postMap[posts[i].postID] = posts[i];
+                }
+
+                if (req.isAuthenticated()) {
+                    PostVote.findAll({
+                        where: { postID: { $in: idList }, userID: req.user.twitterID }
+                    }).then(function(votes) {
+                        var voteMap = {};
+                        for (var i in votes) {
+                            voteMap[votes[i].postID] = votes[i];
+                        }
+                        renderPostList(req, res, vuser, postMap, voteMap);
+                    });
+                } else {
+                    renderPostList(req, res, vuser, postMap);
+                }
+            });
         }).catch(function(err) {
             Utils.renderPage__(req, res, 'profile_404', 'page.profile.title', {
                 userHandle: twitterHandle

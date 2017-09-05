@@ -48,7 +48,9 @@
             </div>
             <div class="col-md-4">
                 <dl>
-                    <dt><%= __('page.profile.userinfo.postcount') %></dt>
+                    <dt>
+                        <a href="/u/<%= data.user.handle %>/posts"><%= __('page.profile.userinfo.postcount') %></a>
+                    </dt>
                     <dd>
                         <%= data.user.postCount %>
                     </dd>
@@ -62,7 +64,6 @@
                         <%= __('page.profile.userinfo.twittermembersince') %>
                         <span class="fa fa-fw fa-twitter"></span>
                     </dt>
-                    <!-- Sat Sep 02 23:43:36 +0000 2017 -->
                     <dd><%= utils.moment(data.twitterUser.created_at, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format(__('dateformat.dateonly')) %></dd>
                 </dl>
             </div>

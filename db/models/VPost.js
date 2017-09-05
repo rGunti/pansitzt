@@ -22,47 +22,48 @@
  *
  */
 
-body .container:first-of-type {
-    padding-top: 20px;
-}
+const Sequelize = require('sequelize');
+const db = require('../dbpool');
+const User = require('./User');
 
-footer img.emoji {
-    width: 16px;
-}
+const VPost = db.define('v_posts', {
+    postID: {
+        field: 'id',
+        type: Sequelize.DataTypes.STRING,
+        primaryKey: true,
+        validate: {
+            is: ['[A-Za-z0-9]', 'i']
+        }
+    },
+    authorID: {
+        field: 'user_id',
+        type: Sequelize.DataTypes.STRING
+    },
+    title: {
+        field: 'title',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    source: {
+        field: 'source',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    voteCount: {
+        field: 'vote_count',
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+    },
+    createdAt: {
+        field: 'created_at',
+        type: Sequelize.DataTypes.TIME
+    },
+    updatedAt: {
+        field: 'updated_at',
+        type: Sequelize.DataTypes.TIME
+    }
+});
 
-/* Alertify Logs appear below Nav Menu */
-.alertify-logs.top {
-    top: 60px;
-}
+VPost.belongsTo(User, { as: 'author', foreignKey: 'user_id' });
 
-.btn {
-    cursor: pointer;
-}
-
-.hidden-on-startup {
-    display: none;
-}
-
-.post-figure figure img {
-    width: 100%;
-}
-
-.post-list .post-list-item {
-    padding-bottom: 25px;
-}
-
-.post-list-post-title {
-    font-size: x-large;
-    font-weight: bold;
-}
-
-.post-list-post-votes {
-}
-
-.post-list-image {
-    display: block;
-}
-
-.post-list img {
-    height: 500px;
-}
+module.exports = VPost;

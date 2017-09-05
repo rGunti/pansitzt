@@ -49,3 +49,17 @@ CREATE VIEW v_users AS
   FROM
     users u
 ;
+
+-- Post View
+CREATE VIEW v_posts AS
+  SELECT
+    p.id AS id,
+    p.user_id AS user_id,
+    p.title AS title,
+    p.source AS source,
+    (SELECT COUNT(v.id) FROM post_votes v WHERE v.post_id = p.id) AS vote_count,
+    p.created_at AS created_at,
+    p.updated_at AS updated_at
+  FROM
+    posts p
+;
