@@ -37,7 +37,9 @@
                    aria-describedby="uploadURLHelp">
             <small id="uploadURLHelp" class="form-text text-muted">
                 <%= __('page.uploadpost.form.url.help') %><br>
-                <%= data.allowedHosts.join(', ') %>
+                <ul>
+                <li><%- data.allowedHosts.join('</li><li>') %></li>
+                </ul>
             </small>
             <small id="uploadURLEmpty" class="form-text text-danger hidden-on-startup">
                 <span class="fa fa-fw fa-exclamation-triangle"></span>
@@ -76,12 +78,25 @@
             <span class="text-warning">*</span>
         </label>
         <div class="col-sm-9 col-md-10">
-            <input type="text"
-                   class="form-control"
-                   id="uploadPostTitle">
+            <div class="input-group">
+                <input type="text"
+                       class="form-control"
+
+                       id="uploadPostTitle">
+                <span id="uploadPostTitleLengthInfo" class="input-group-addon">
+                    <span id="uploadPostTitleLength">0</span>
+                    /
+                    <span id="uploadPostTitleMaxLength">100</span>
+                </span>
+            </div>
+
             <small id="uploadPostTitleEmpty" class="form-text text-danger hidden-on-startup">
                 <span class="fa fa-fw fa-exclamation-triangle"></span>
                 <%= __('page.uploadpost.form.validation.empty') %>
+            </small>
+            <small id="uploadPostTitleTooLong" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.toolong', 100) %>
             </small>
         </div>
     </div>

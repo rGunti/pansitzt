@@ -44,6 +44,7 @@
 	"page.uploadpost.form.required": "Feld wird benötigt",
 	"page.uploadpost.form.validation.invalidurl": "Du hast keine URL eingegeben. Bitte überprüfe Deine Eingabe.",
 	"page.uploadpost.form.validation.empty": "Dieses Feld wird benötigt.",
+	"page.uploadpost.form.validation.toolong": "Deine Eingabe ist zu lang. Maximal sind %s Zeichen erlaubt.",
 	"page.uploadpost.form.checkurl": "URL prüfen",
 	"page.uploadpost.form.validation.invalidhost": "Die URL verweist auf einen nicht erlaubten Service. Bitte korrigiere die URL.",
 	"page.uploadpost.form.validation.invalidtype": "Die URL verweist nicht auf ein Bild.",

@@ -30,6 +30,10 @@ footer img.emoji {
     width: 16px;
 }
 
+.input-group-addon.bg-danger {
+    color: white;
+}
+
 /* Alertify Logs appear below Nav Menu */
 .alertify-logs.top {
     top: 60px;

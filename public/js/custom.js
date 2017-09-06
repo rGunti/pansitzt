@@ -123,6 +123,7 @@ $(document).ready(function() {
         $('#uploadURL').removeClass('is-invalid');
         $('#uploadPostTitle').removeClass('is-invalid');
         $('#uploadURLImageValid').hide();
+        $('#uploadPostTitleTooLong').hide();
 
         var url = $('#uploadURL').val();
         var title = $('#uploadPostTitle').val();
@@ -153,7 +154,11 @@ $(document).ready(function() {
 
         if (!ignoreTitle) {
             if (title) {
-                titleValid = true;
+                if (title.length > 100) {
+                    $('#uploadPostTitleTooLong').show();
+                } else {
+                    titleValid = true;
+                }
             } else {
                 $('#uploadPostTitle').addClass('is-invalid');
                 $('#uploadPostTitleEmpty').show();
@@ -224,6 +229,20 @@ $(document).ready(function() {
                     $('#uploadURLInvalidType').show();
                     laddaCheck.stop();
                 });
+        }
+    });
+
+    $('#uploadPostTitle').on('input', function(e) {
+        var content = $(e.currentTarget).val();
+        var len = content.length;
+        $('#uploadPostTitleLength').text(Math.max(len, 0));
+
+        $('#uploadPostTitleLengthInfo').removeClass('bg-danger');
+        $('#uploadPostTitleLengthInfo').removeClass('bg-warning');
+        if (len >= 100) {
+            $('#uploadPostTitleLengthInfo').addClass('bg-danger');
+        } else if (len > 75) {
+            $('#uploadPostTitleLengthInfo').addClass('bg-warning');
         }
     });
 
