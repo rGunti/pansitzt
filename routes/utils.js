@@ -28,6 +28,8 @@ var config = require('config');
 var http = require('http');
 var https = require('https');
 var imageType = require('image-type');
+var marked = require('marked');
+var fs = require('fs');
 
 var ALLOWED_HOSTS = config.get('allowedHosts');
 
@@ -56,6 +58,32 @@ const Utils = {
                 moment: moment
             }
         })
+    },
+    renderMarkdownPage: function(req, res, __title, markdownFile, statusCode) {
+        if (statusCode) {
+            res.status(statusCode);
+        }
+        fs.readFile('views/md/' + markdownFile + '/' + markdownFile + '_' + res.getLocale() + '.md', function(err, data) {
+            if (err) {
+                Utils.renderPage__(req, res, 'error', 'page.error.title', {
+                    message: res.__('page.markdown.filenotfound', markdownFile),
+                    error: { status: '', stack: '' }
+                }, 404);
+            } else {
+                res.render('templates/main', {
+                    page: 'markdown',
+                    title: res.__(__title),
+                    data: marked(data.toString()),
+                    isLoggedIn: req.isAuthenticated(),
+                    loggedInUser: req.user || null,
+                    version: appVersion,
+                    locale: req.getLocale(),
+                    utils: {
+                        moment: moment
+                    }
+                });
+            }
+        });
     },
     renderMessages: function(req, messages) {
         var msgs = [];

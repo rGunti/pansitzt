@@ -61,5 +61,8 @@
 	"api.response.dbfail": "Bei einer Datenbank-Aktion ist ein Fehler aufgetreten.",
 	"object.post.title": "Post-Titel",
 	"object.post.url": "URL",
-	"page.home.more_posts": "Mehr Posts zeigen..."
+	"page.home.more_posts": "Mehr Posts zeigen...",
+	"page.about.title": "Über #PanSitzt",
+	"page.markdown.filenotfound": "Der Markdown Renderer konnte \"%s\" nicht finden",
+	"page.tos.title": "Nutzungsbestimmungen"
 }
