@@ -29,13 +29,18 @@
     %>
     <div class="col-12 col-md-6 post-list-item">
         <div class="row">
-            <div class="col-8">
+            <div class="col-12 post-header-data">
                 <a class="post-list-post-title"
                    href="/p/<%= post.postID %>">
                     <%= post.title %>
                 </a>
             </div>
-            <div class="col-4 text-right post-list-post-votes">
+            <div class="col-12 post-list-image-container">
+                <a class="post-list-image" href="/p/<%= post.postID %>">
+                    <img class="img-fluid rounded" src="<%= post.source %>">
+                </a>
+            </div>
+            <div class="col-12 text-right post-list-post-votes">
                 <button class="btn btn-post-like ladda-button btn-secondary <%= (isLoggedIn ? (data.votes[post.postID] ? 'btn-success' : '') : 'disabled') %>"
                         data-id="<%= post.postID %>"
                         data-style="slide-left"
@@ -46,14 +51,49 @@
                     </span>
                 </button>
             </div>
-            <div class="col-12">
-                <a class="post-list-image" href="/p/<%= post.postID %>">
-                    <div class="text-center post-figure" style="margin-top: 10px">
-                        <img class="img-fluid rounded" src="<%= post.source %>">
-                    </div>
-                </a>
-            </div>
         </div>
     </div>
     <% } %>
+</div>
+
+<!-- Paging -->
+<div class="col-12">
+    <nav>
+        <ul class="pagination justify-content-center">
+            <!-- Paging Arrows Start -->
+            <li class="page-item <%= (data.page <= 1) ? 'disabled' : '' %>">
+                <a class="page-link" href="<%= '/u/' + data.byUser.handle + '/posts/1' %>" tabindex="-1">
+                    <span class="fa fa-chevron-left"></span>
+                    <span class="fa fa-chevron-left"></span>
+                </a>
+            </li>
+            <li class="page-item <%= (data.page <= 1) ? 'disabled' : '' %>">
+                <a class="page-link" href="<%= '/u/' + data.byUser.handle + '/posts/' + (data.page - 1) %>" tabindex="-1">
+                    <span class="fa fa-fw fa-chevron-left"></span>
+                </a>
+            </li>
+
+            <!-- Page Numbers -->
+            <% for (var p = 1; p <= data.maxPages; p++) { %>
+            <li class="page-item <%= (data.page == p ? 'disabled' : '') %>">
+                <a class="page-link" href="<%= '/u/' + data.byUser.handle + '/posts/' + p %>">
+                    <%= p %>
+                </a>
+            </li>
+            <% } %>
+
+            <!-- Paging Arrows End -->
+            <li class="page-item <%= (data.page >= Math.ceil(data.byUser.postCount / data.postPageCount)) ? 'disabled' : '' %>">
+                <a class="page-link" href="<%= '/u/' + data.byUser.handle + '/posts/' + (data.page + 1) %>">
+                    <span class="fa fa-fw fa-chevron-right"></span>
+                </a>
+            </li>
+            <li class="page-item <%= (data.page >= data.maxPages) ? 'disabled' : '' %>">
+                <a class="page-link" href="<%= '/u/' + data.byUser.handle + '/posts/' + (data.maxPages) %>" tabindex="-1">
+                    <span class="fa fa-chevron-right"></span>
+                    <span class="fa fa-chevron-right"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

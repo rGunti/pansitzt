@@ -22,9 +22,25 @@
  *
  */
 
-body {
+body,
+.page-link {
     background-color: #0e141a;
     color: #cccccc;
+}
+
+.page-link {
+    border-color: #868e96;
+}
+
+.page-link:hover {
+    background-color: #868e96;
+    border-color: #868e96;
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    background-color: #0e141a;
+    border-color: #868e96;
 }
 
 a {
