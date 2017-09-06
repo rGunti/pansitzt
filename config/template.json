@@ -1,0 +1,22 @@
+{
+  "appName": "#PanSitzt",
+  "locales": ["de"],
+  "defaultLocale": "de",
+  "port": 1337,
+  "database": {
+    "host": "",
+    "port": 3306,
+    "dbName": "",
+    "username": "",
+    "password": ""
+  },
+  "twitter": {
+    "consumerKey": "",
+    "consumerSecret": "",
+    "callbackURL": ""
+  },
+  "allowedHosts": [
+    "pbs.twimg.com",
+    "i.imgur.com"
+  ]
+}
