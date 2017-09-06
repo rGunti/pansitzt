@@ -28,6 +28,8 @@ var Utils = require('./utils');
 var moment = require('moment');
 const allowedHosts = require('config').get('allowedHosts');
 
+const POST_PAGE_SIZE = 5;
+
 module.exports = function(app) {
     function isLoggedInApi(req, res, next) {
         if (req.isAuthenticated())
@@ -63,6 +65,96 @@ module.exports = function(app) {
             error: errorMessages
         });
     }
+
+    function renderPostListPage(req, res, posts, votes, postCount, offset, morePostsCount) {
+        Utils.renderPage(req, res, 'post_list', req.__('page.home.title'), {
+            posts: posts,
+            postCount: Object.keys(posts).length,
+            totalPostCount: postCount,
+            votes: votes,
+            offset: offset,
+            hasMorePosts: morePostsCount
+        });
+    }
+
+    function processPostList(req, res, totalPostCount, posts, offsetPost) {
+        var lastPost = posts[Math.max(posts.length - 1, 0)];
+        var postMap = Utils.generateObjectMap(posts, 'postID');
+        VPost.count({
+            where: {
+                createdAt: { $lt: lastPost.createdAt }
+            }
+        }).then(function(morePostCount) {
+            if (req.isAuthenticated()) {
+                PostVote.findAll({
+                    where: {
+                        postID: { $in: Utils.generateIDArray(posts, 'postID') },
+                        userID: req.user.twitterID
+                    }
+                }).then(function(votes) {
+                    var voteMap = Utils.generateObjectMap(votes, 'postID');
+                    renderPostListPage(req, res, postMap, voteMap, totalPostCount, offsetPost, morePostCount);
+                }).catch(function(err) {
+                    throw err;
+                });
+            } else {
+                renderPostListPage(req, res, postMap, null, totalPostCount, offsetPost, morePostCount);
+            }
+        }).catch(function(err) {
+            throw err;
+        });
+    }
+
+    function getHomePostList(req, res) {
+        var offset = req.query.p || "";
+        VPost.count().then(function(postCount) {
+            if (offset) {
+                VPost.findOne({
+                    where: { postID: offset }
+                }).then(function (offsetPost) {
+                    if (offsetPost) {
+                        VPost.findAll({
+                            where: {
+                                createdAt: {
+                                    $lt: offsetPost.createdAt
+                                }
+                            },
+                            order: [[ 'created_at', 'DESC' ]],
+                            limit: POST_PAGE_SIZE
+                        }).then(function(posts) {
+                            processPostList(req, res, postCount, posts, offsetPost);
+                        }).catch(function(err) {
+                            throw err;
+                        });
+                    } else {
+                        throw err;
+                    }
+                }).catch(function(err) {
+                    VPost.findAll({
+                        order: [ [ 'created_at', 'DESC' ] ],
+                        limit: POST_PAGE_SIZE
+                    }).then(function(posts) {
+                        processPostList(req, res, postCount, posts);
+                    }).catch(function(err) {
+                        throw err;
+                    });
+                });
+            } else {
+                VPost.findAll({
+                    order: [ [ 'created_at', 'DESC' ] ],
+                    limit: POST_PAGE_SIZE
+                }).then(function(posts) {
+                    processPostList(req, res, postCount, posts);
+                }).catch(function(err) {
+                    throw err;
+                });
+            }
+        }).catch(function(err) {
+            throw err;
+        });
+    }
+
+    app.get('/', getHomePostList);
 
     app.get('/p', isLoggedIn, function(req, res) {
         Utils.renderPage__(req, res, 'upload_post', 'page.uploadpost.title', {

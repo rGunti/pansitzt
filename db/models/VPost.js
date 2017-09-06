@@ -39,6 +39,14 @@ const VPost = db.define('v_posts', {
         field: 'user_id',
         type: Sequelize.DataTypes.STRING
     },
+    authorHandle: {
+        field: 'user_handle',
+        type: Sequelize.DataTypes.STRING
+    },
+    authorDisplayName: {
+        field: 'user_display_name',
+        type: Sequelize.DataTypes.STRING
+    },
     title: {
         field: 'title',
         type: Sequelize.DataTypes.STRING,

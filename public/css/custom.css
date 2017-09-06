@@ -56,7 +56,7 @@ footer img.emoji {
     padding-bottom: 25px;
 }
 
-.post-header-data {
+.post-list .post-header-data {
     padding-bottom: 10px;
 }
 
@@ -64,8 +64,31 @@ footer img.emoji {
     padding-top: 10px;
 }
 
-.post-list-image-container img {
+.post-list-image-container img,
+.post-home-list .row img {
     width: 100%;
+}
+
+.post-home-list .row {
+    padding-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .post-home-list .post-header-data {
+        text-align: right;
+    }
+}
+@media (max-width: 768px) {
+    .post-home-list .post-header-data {
+        padding-bottom: 10px;
+    }
+    .post-home-list .post-header-actions {
+        text-align: right;
+    }
+}
+
+.post-home-list .post-list-post-title {
+    display: block;
 }
 
 /*

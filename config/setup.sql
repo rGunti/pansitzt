@@ -38,6 +38,7 @@ CREATE TABLE post_votes
 );
 
 -- Profile View
+DROP VIEW IF EXISTS v_users;
 CREATE VIEW v_users AS
   SELECT
     u.twitter_id AS twitter_id,
@@ -51,10 +52,13 @@ CREATE VIEW v_users AS
 ;
 
 -- Post View
+DROP VIEW IF EXISTS v_posts;
 CREATE VIEW v_posts AS
   SELECT
     p.id AS id,
     p.user_id AS user_id,
+    u.handle AS user_handle,
+    u.display_name AS user_display_name,
     p.title AS title,
     p.source AS source,
     (SELECT COUNT(v.id) FROM post_votes v WHERE v.post_id = p.id) AS vote_count,
@@ -62,4 +66,5 @@ CREATE VIEW v_posts AS
     p.updated_at AS updated_at
   FROM
     posts p
+    LEFT JOIN users u ON p.user_id = u.twitter_id
 ;

@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright (c) 2017, Raphael "rGunti" Guntersweiler
+  ~ Licensed under MIT
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  ~
+  -->
+
+<div class="post-home-list">
+    <%
+    var c = 0;
+    var lp = null;
+    for (var i in data.posts) {
+        var p = data.posts[i]; lp = p;
+    %>
+    <% if (c > 0) { %><hr><% } %>
+    <div class="row">
+        <div class="col-md-4 post-header-data">
+            <a class="post-list-post-title"
+               href="/p/<%= p.postID %>">
+                <%= p.title %>
+            </a>
+            <p>
+                <small>
+                    <%= __('page.post.properties.postedby') %>
+                    <a href="/u/<%= p.authorHandle %>">@<%= p.authorHandle %></a>
+                </small>
+            </p>
+            <div class="post-header-actions">
+                <button class="btn btn-post-like ladda-button btn-secondary <%= (isLoggedIn ? (data.votes[p.postID] ? 'btn-success' : '') : 'disabled') %>"
+                        data-id="<%= p.postID %>"
+                        data-style="expand-left"
+                        title="<%= __('action.post.upvote') %>">
+                    <span class="ladda-label">
+                        <span class="post-vote-count"><%= p.voteCount %></span>
+                        <span class="fa fa-fw fa-thumbs-o-up"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <a href="/p/<%= p.postID %>">
+                <img class="img-fluid rounded" src="<%= p.source %>">
+            </a>
+        </div>
+    </div>
+    <%
+        c++;
+    } %>
+    <% if (data.hasMorePosts && lp) { %>
+    <hr>
+    <div class="row">
+        <div class="col-12 text-center">
+            <a class="btn btn-primary btn-lg"
+               href="<%= '/?p=' + lp.postID %>">
+                <%= __('page.home.more_posts') %>
+            </a>
+        </div>
+    </div>
+    <% } %>
+</div>

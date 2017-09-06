@@ -174,6 +174,22 @@ const Utils = {
                 if (successCallback) successCallback(newPostID);
             })
         ;
+    },
+    generateObjectMap: function(objArray, idField) {
+        var objMap = {};
+        for (var i in objArray) {
+            var o = objArray[i];
+            objMap[o[idField]] = o;
+        }
+        return objMap;
+    },
+    generateIDArray: function(objArray, idField) {
+        var idArray = [];
+        for (var i in objArray) {
+            var o = objArray[i];
+            idArray.push(o[idField]);
+        }
+        return idArray;
     }
 };
 
