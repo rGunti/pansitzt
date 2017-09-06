@@ -73,7 +73,7 @@ module.exports = function (app, passport) {
 
     function renderPostList(req, res, userPost, posts, votes, page, offset) {
         Utils.renderPage(req, res,
-            'post_list', req.__('page.post_list_by_user.title', userPost),
+            'user_post_list', req.__('page.post_list_by_user.title', userPost),
             {
                 posts: posts,
                 postCount: Object.keys(posts).length,
