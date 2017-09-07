@@ -64,5 +64,6 @@
 	"page.home.more_posts": "Mehr Posts zeigen...",
 	"page.about.title": "Über #PanSitzt",
 	"page.markdown.filenotfound": "Der Markdown Renderer konnte \"%s\" nicht finden",
-	"page.tos.title": "Nutzungsbestimmungen"
+	"page.tos.title": "Nutzungsbestimmungen",
+	"page.uploadpost.form.infotext": "Bitte prüfe vor dem Upload, ob der Post den Nutzungsbestimmungen dieser Plattform entspricht. Du kannst dir dafür auch die Seite \"Über #PanSitzt\" durchlesen. Durch den Upload bestätigst du, dass du diese Bestimmungen auch akzeptierst."
 }
