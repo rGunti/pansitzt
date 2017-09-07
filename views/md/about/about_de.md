@@ -17,7 +17,8 @@ weitere Features vorschlagen, welche evtl. eingebaut werden können.
 ### Open Source
 Der Source Code dieser Plattform wird unter der [MIT-Lizenz](https://de.wikipedia.org/wiki/MIT-Lizenz)
 freigegeben. Solltest du Entwickler sein und das Know-How besitzen, die Seite zu verbessern, forke das
-Repository auf GitHub und reiche eine Pull-Request ein.
+Repository auf GitHub und reiche eine Pull-Request ein. Das Repository findest du hier:
+[github.com/rGunti/pansitzt](https://github.com/rGunti/pansitzt)
 
 ### Forum
 Wir bieten ein Forum für den Austausch der Community an: [forum.pansitzt.de](http://forum.pansitzt.de)
@@ -65,7 +66,7 @@ Wenn wir deine Postings von #PanSitzt.de löschen sollen, benachrichtige uns per
 persönlich drum kümmern. (Diese Funktion wird später automatisiert.)
 
 ##### Ich habe ein Post gesehen, welcher unerwünschte Inhalte enthält. Kann ich ihn melden?
-Solltest du ein Post finden, welcher gegen die Community-Richtlinien versösst, melde ihn uns. Nutze dafür
+Solltest du ein Post finden, welcher gegen die Community-Richtlinien verstösst, melde ihn uns. Nutze dafür
 die "Melden"-Funktion auf der Posting-Seite (erreichbar über den Pfeil neben dem "Like"-Button). Bitte
 melde uns die Posts nicht über das Forum oder per Mail, es sei denn, sie enthalten widerrechtliche Inhalte.
 
