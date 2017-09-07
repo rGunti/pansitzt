@@ -2,9 +2,9 @@
 **#PanSitzt** ist ein Hashtag, der sich aufgrund eines Bildes einer sitzenden
 [Pandorya](https://gronkh-wiki.de/wiki/Pandorya) ([@xPandorya](https://twitter.com/xPandorya))
 fotografiert und gepostet von 
-[Gronkh](http://de.wikipedia.org/wiki/Gronkh) ([@Gronkh](https://twitter.com/Gronkh)).
-Aus diesem Bild ist im Laufe der letzten Monaten und Jahren ein Meme entstanden, welches in der
-Gronkh-Community sehr bekannt und beliebt ist.
+[Gronkh](http://de.wikipedia.org/wiki/Gronkh) ([@Gronkh](https://twitter.com/Gronkh)),
+auf Twitter verbreitet hat. Aus diesem Bild ist im Laufe der letzten Monaten und Jahren ein Meme 
+entstanden, welches in der Gronkh-Community sehr bekannt und beliebt ist.
 
 Die Webseite **#PanSitzt.de** hat das Ziel, diese Bilder auf einer Plattform zu sammeln und zu sortieren.
 
