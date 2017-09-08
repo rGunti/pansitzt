@@ -15,6 +15,10 @@
     "consumerSecret": "",
     "callbackURL": ""
   },
+  "recaptcha": {
+    "siteKey": "",
+    "siteSecret": ""
+  },
   "allowedHosts": [
     "pbs.twimg.com",
     "i.imgur.com"

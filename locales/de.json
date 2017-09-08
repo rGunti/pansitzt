@@ -65,5 +65,11 @@
 	"page.about.title": "Über #PanSitzt",
 	"page.markdown.filenotfound": "Der Markdown Renderer konnte \"%s\" nicht finden",
 	"page.tos.title": "Nutzungsbestimmungen",
-	"page.uploadpost.form.infotext": "Bitte prüfe vor dem Upload, ob der Post den Nutzungsbestimmungen dieser Plattform entspricht. Du kannst dir dafür auch die Seite \"Über #PanSitzt\" durchlesen. Durch den Upload bestätigst du, dass du diese Bestimmungen auch akzeptierst."
+	"page.uploadpost.form.infotext": "Bitte prüfe vor dem Upload, ob der Post den Nutzungsbestimmungen dieser Plattform entspricht. Du kannst dir dafür auch die Seite \"Über #PanSitzt\" durchlesen. Durch den Upload bestätigst du, dass du diese Bestimmungen auch akzeptierst.",
+	"api.response.recaptcha": "Bitte fülle das Captcha aus.",
+	"api.response.recaptcha.missing-input-secret": "Das Captcha ist falsch konfiguriert (Fehler: 0x201E)! Bitte benachrichtige den Hoster.",
+	"api.response.recaptcha.invalid-input-secret": "Das Captcha ist falsch konfiguriert (Fehler: 0x201F)! Bitte benachrichtige den Hoster.",
+	"api.response.recaptcha.missing-input-response": "Du hast das Captcha nicht ausgefüllt. Bitte überprüfe deine Eingabe oder versuche es später nocheinmal.",
+	"api.response.recaptcha.invalid-input-response": "Du hast das Captcha nicht ausgefüllt. Bitte überprüfe deine Eingabe oder versuche es später nocheinmal.",
+	"api.response.recaptcha.bad-request": "Das Captcha ist kaputt gegangen! Versuche es später nocheinmal."
 }

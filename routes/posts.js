@@ -28,9 +28,14 @@ var Utils = require('./utils');
 var moment = require('moment');
 const allowedHosts = require('config').get('allowedHosts');
 
+var recaptcha = require('express-recaptcha');
+const recaptchaConfig = require('config').get('recaptcha');
+
 const POST_PAGE_SIZE = 5;
 
 module.exports = function(app) {
+    recaptcha.init(recaptchaConfig.siteKey, recaptchaConfig.siteSecret);
+
     function isLoggedInApi(req, res, next) {
         if (req.isAuthenticated())
             return next();
@@ -154,15 +159,26 @@ module.exports = function(app) {
         });
     }
 
+    function validateReCaptcha(req, res, next) {
+        recaptcha.verify(req, function(error, data) {
+            if (error) {
+                res.status(400).send({ok: false, error: res.__('api.response.recaptcha.' + error)})
+            } else {
+                next();
+            }
+        });
+    }
+
     app.get('/', getHomePostList);
 
     app.get('/p', isLoggedIn, function(req, res) {
         Utils.renderPage__(req, res, 'upload_post', 'page.uploadpost.title', {
-            allowedHosts: allowedHosts
+            allowedHosts: allowedHosts,
+            captcha: recaptcha.render()
         });
     });
 
-    app.post('/p', isLoggedInApi, function(req, res) {
+    app.post('/p', isLoggedInApi, validateReCaptcha, function(req, res) {
         var post = {
             postID: '',
             title: req.body.title,

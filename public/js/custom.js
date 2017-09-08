@@ -168,6 +168,7 @@ $(document).ready(function() {
         return {
             url: url,
             title: title,
+            'g-recaptcha-response': grecaptcha.getResponse(),
             valid: urlValid && (ignoreTitle ? true : titleValid)
         }
     }
@@ -180,8 +181,8 @@ $(document).ready(function() {
 
         laddaSubmit.start();
 
-        //testImage(formData.url)
-        //    .then(function() {
+        testImage(formData.url)
+            .then(function() {
                 $.ajax({
                     url: '/p',
                     method: 'post',
@@ -207,11 +208,11 @@ $(document).ready(function() {
                 }).always(function() {
                     laddaSubmit.stop();
                 });
-        //    })
-        //    .catch(function() {
-        //        $('#uploadURLInvalidType').show();
-        //        laddaCheck.stop();
-        //    });
+            })
+            .catch(function() {
+                $('#uploadURLInvalidType').show();
+                laddaCheck.stop();
+            });
     });
 
     $('#uploadURLTestButton').click(function(e) {
