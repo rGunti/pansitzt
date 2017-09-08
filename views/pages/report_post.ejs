@@ -1,0 +1,122 @@
+<!--
+  ~ Copyright (c) 2017, Raphael "rGunti" Guntersweiler
+  ~ Licensed under MIT
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  ~
+  -->
+
+<h1><%= __('page.report_post.caption') %></h1>
+<div class="row">
+    <div class="col-12">
+        <p><%= __('page.report_post.introduction') %></p>
+    </div>
+</div>
+<dl class="row">
+    <dt class="col-sm-3 col-md-2"><%= __('object.report.post') %></dt>
+    <dd class="col-sm-9 col-md-10"><%= data.post.title %></dd>
+
+    <dt class="col-sm-3 col-md-2"><%= __('page.post.properties.postedby') %></dt>
+    <dd class="col-sm-9 col-md-10">@<%= data.post.authorHandle %></dd>
+
+    <dt class="col-sm-3 col-md-2"><%= __('page.post.properties.postedat') %></dt>
+    <dd class="col-sm-9 col-md-10"><%= utils.moment(data.post.createdAt).format(__('dateformat.full')) %></dd>
+</dl>
+<form action="/p/<%= data.post.postID %>/report" method="post" id="reportForm">
+    <input type="hidden" id="reportPostID" value="<%= data.post.postID %>">
+    <div class="form-group row">
+        <label for="reportReason" class="col-sm-3 col-md-2 col-form-label">
+            <%= __('object.report.reason') %>
+            <span class="text-warning">*</span>
+        </label>
+        <div class="col-sm-9 col-md-10">
+            <select class="form-control" id="reportReason">
+                <% for (var i in data.reasons) { var reason = data.reasons[i]; %>
+                <option value="<%= reason %>"><%= __('object.report.reason.' + reason) %></option>
+                <% } %>
+            </select>
+            <small id="reportReasonEmpty" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.reportpost.form.validation.reasonempty') %>
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="reportCommentText" class="col-sm-3 col-md-2 col-form-label">
+            <%= __('object.report.commenttext') %>
+            <span class="text-warning">*</span>
+        </label>
+        <div class="col-sm-9 col-md-10">
+            <textarea id="reportCommentText" class="form-control" rows="7"></textarea>
+
+            <small id="reportCommentTextEmpty" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.empty') %>
+            </small>
+            <small id="reportCommentTextTooShort" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.tooshort', 10) %>
+            </small>
+            <small id="reportCommentTextTooLong" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.toolong', 500) %>
+            </small>
+
+            <p id="reportCommentTextLengthInfo" class="form-text text-muted text-right">
+                <span id="reportCommentTextLength">0</span>
+                /
+                <span id="reportCommentTextMaxLength">500</span>
+            </p>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 col-md-2">
+            <%= __('page.uploadpost.form.captcha') %>
+            <span class="text-warning">*</span>
+        </div>
+        <div class="col-sm-9 col-md-10">
+            <%- data.captcha %>
+            <small id="reportCaptchaMissing" class="form-text text-danger hidden-on-startup">
+                <span class="fa fa-fw fa-exclamation-triangle"></span>
+                <%= __('page.uploadpost.form.validation.captchamissing') %> %>
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 col-md-2"></div>
+        <div class="col-sm-9 col-md-10">
+            <span class="text-warning">
+                *
+                <%= __('page.uploadpost.form.required') %>
+            </span>
+        </div>
+    </div>
+    <div class="form-group row text-right">
+        <div class="col-sm-3 col-md-2"></div>
+        <div class="col-sm-9 col-md-10 text-right">
+            <button type="submit"
+                    data-style="expand-left"
+                    id="reportSubmitButton"
+                    class="btn btn-primary">
+                <span class="fa fa-fw fa-flag"></span>
+                <%= __('page.report_post.form.submit') %>
+            </button>
+        </div>
+    </div>
+</form>

@@ -24,6 +24,7 @@
 var Post = require('../db/models/Post');
 var VPost = require('../db/models/VPost');
 var PostVote = require('../db/models/PostVote');
+var Report = require('../db/models/Report');
 var Utils = require('./utils');
 var moment = require('moment');
 const allowedHosts = require('config').get('allowedHosts');
@@ -57,6 +58,14 @@ module.exports = function(app) {
             vote: vote,
             moment: moment
         })
+    }
+
+    function renderPostReportPage(req, res, post) {
+        Utils.renderPage(req, res, 'report_post', res.__('page.report_post.title', post), {
+            post: post,
+            reasons: Report.REPORT_REASONS,
+            captcha: recaptcha.render()
+        });
     }
 
     function render404Page(req, res, postID, err) {
@@ -242,6 +251,58 @@ module.exports = function(app) {
                 render404Page(req, res, postID, err);
             })
         ;
+    });
+
+    app.get('/p/:postID/report', isLoggedIn, function(req, res) {
+        var postID = req.params.postID;
+        VPost.findById(postID)
+            .then(function(post) {
+                if (post) {
+                    renderPostReportPage(req, res, post);
+                } else {
+                    render404Page(req, res, postID, err);
+                }
+            })
+            .catch(function(err) {
+                render404Page(req, res, postID, err);
+            })
+        ;
+    });
+
+    app.post('/p/:postID/report', isLoggedInApi, validateReCaptcha, function(req, res) {
+        var postID = req.params.postID;
+        setTimeout(function() {
+            Post.findById(postID)
+                .then(function(post) {
+                    if (!post) {
+                        res.status(404).send({ ok: false });
+                    } else {
+                        var report = {
+                            reportedByUserID: req.user.twitterID,
+                            postID: req.body.postID,
+                            reason: req.body.reason,
+                            commentText: req.body.comment
+                        };
+
+                        var messages = [];
+                        if (Utils.validateReport(report, messages)) {
+                            Report.create(report)
+                                .then(function(r) {
+                                    res.status(200).send({ ok: true, message: res.__('api.response.success.report') });
+                                })
+                                .catch(function(e) {
+                                    messages.push('api.response.dbfail');
+                                    renderApiMessages(req, res, messages);
+                                })
+                        } else {
+                            renderApiMessages(req, res, messages);
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    res.status(404).send({ ok: false, error: err })
+                });
+        }, 1000)
     });
 
     app.post('/p/:postID/vote', isLoggedInApi, function(req, res) {

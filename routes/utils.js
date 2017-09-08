@@ -34,6 +34,7 @@ var fs = require('fs');
 var ALLOWED_HOSTS = config.get('allowedHosts');
 
 const Post = require('../db/models/Post');
+const Report = require('../db/models/Report');
 
 const Utils = {
     renderPage__: function(req, res, page, title, data, statusCode) {
@@ -134,6 +135,8 @@ const Utils = {
             messages.push(['api.validation.fieldempty', { field: '#object.post.title' }]);
         } else if (post.title.length < 5) {
             messages.push(['api.validation.fieldshort', { field: '#object.post.title', len: 5 }]);
+        } else if (post.title.length > 100) {
+            messages.push(['api.validation.fieldlong', { field: '#object.post.title', len: 100 }]);
         }
 
         if (!post.source) {
@@ -151,6 +154,25 @@ const Utils = {
                     messages.push(['api.validation.unallowedhost', { host: hostname }]);
                 }
             }
+        }
+
+        return (messages.length === startErrorCount);
+    },
+    validateReport: function(report, messages) {
+        var startErrorCount = messages.length;
+
+        if (!report.reason) {
+            messages.push(['api.validation.fieldempty', { field: '#object.report.reason' }]);
+        } else if (Report.REPORT_REASONS.indexOf(report.reason) < 0) {
+            messages.push(['api.validation.invalidvalue', { field: '#object.report.reason' }]);
+        }
+
+        if (!report.commentText) {
+            messages.push(['api.validation.fieldempty', { field: '#object.report.commenttext' }]);
+        } else if (report.commentText.length < 10) {
+            messages.push(['api.validation.fieldshort', { field: '#object.report.commenttext', len: 5 }]);
+        } else if (report.commentText.length > 500) {
+            messages.push(['api.validation.fieldlong', { field: '#object.report.commenttext', len: 5 }]);
         }
 
         return (messages.length === startErrorCount);

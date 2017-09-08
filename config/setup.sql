@@ -68,3 +68,33 @@ CREATE VIEW v_posts AS
     posts p
     LEFT JOIN users u ON p.user_id = u.twitter_id
 ;
+
+-- Reports
+create table reports
+(
+  id int auto_increment
+    primary key,
+  post_id varchar(8) not null,
+  reported_by_id varchar(20) not null,
+  reason varchar(5) default 'UNDEF' not null,
+  comment_text varchar(500) null,
+  created_at timestamp default CURRENT_TIMESTAMP not null,
+  updated_at timestamp default '0000-00-00 00:00:00' not null,
+  completed_at timestamp default '0000-00-00 00:00:00' not null,
+  resolution_comment varchar(500) null,
+  resolution_type varchar(5) null,
+  completed_by_id varchar(20) null,
+  constraint reports_posts_id_fk
+  foreign key (post_id) references posts (id),
+  constraint reports_users_twitter_id_fk
+  foreign key (reported_by_id) references users (twitter_id)
+)
+;
+
+create index reports_posts_id_fk
+  on reports (post_id)
+;
+
+create index reports_users_twitter_id_fk
+  on reports (reported_by_id)
+;

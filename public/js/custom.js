@@ -25,6 +25,7 @@
 var laddaLike;
 var laddaSubmit;
 var laddaCheck;
+var laddaSubmitReport;
 
 function setupLaddaButton(selector) {
     if ($(selector).length > 0) {
@@ -42,6 +43,7 @@ $(document).ready(function() {
     //laddaLike = setupLaddaButton('.btn-post-like');
     laddaSubmit = setupLaddaButton('#uploadURLSubmitButton');
     laddaCheck = setupLaddaButton('#uploadURLTestButton');
+    laddaSubmitReport = setupLaddaButton('#reportSubmitButton');
 
     // jQuery Setup
     $('.btn-post-like').click(function(e) {
@@ -250,6 +252,110 @@ $(document).ready(function() {
             $('#uploadPostTitleLengthInfo').addClass('bg-danger');
         } else if (len > 75) {
             $('#uploadPostTitleLengthInfo').addClass('bg-warning');
+        }
+    });
+
+    function checkReportForm() {
+        $('form .form-control.text-danger').hide();
+        $('#reportReason').removeClass('is-invalid');
+        $('#reportCommentText').removeClass('is-invalid');
+        $('#reportReasonEmpty').hide();
+        $('#reportCommentTextEmpty').hide();
+        $('#reportCommentTextTooShort').hide();
+        $('#reportCommentTextTooLong').hide();
+        $('#reportCaptchaMissing').hide();
+
+        var reason = $('#reportReason').val();
+        var reasonValid = true;
+        if (!reason || reason.toUpperCase() === 'UNDEF') {
+            reasonValid = false;
+            $('#reportReasonEmpty').show();
+            $('#reportReason').addClass('is-invalid');
+        }
+
+        var comment = $('#reportCommentText').val();
+        var commentValid = true;
+        if (!comment) {
+            commentValid = false;
+            $('#reportCommentText').addClass('is-invalid');
+            $('#reportCommentTextEmpty').show();
+        } else if (comment.length < 10) {
+            commentValid = false;
+            $('#reportCommentText').addClass('is-invalid');
+            $('#reportCommentTextTooShort').show();
+        } else if (comment.length > 500) {
+            commentValid = false;
+            $('#reportCommentText').addClass('is-invalid');
+            $('#reportCommentTextTooLong').show();
+        }
+
+        var captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            $('#reportCaptchaMissing').show();
+        }
+
+        return {
+            reason: reason,
+            comment: comment,
+            'g-recaptcha-response': captchaResponse,
+            postID: $('#reportPostID').val(),
+            valid: (reasonValid && commentValid && captchaResponse)
+        };
+    }
+
+    $('#reportForm').submit(function(e) {
+        e.preventDefault();
+
+        var formData = checkReportForm();
+        if (!formData.valid) { return; }
+
+        laddaSubmitReport.start();
+
+        $.ajax({
+            url: '/p/' + formData.postID + '/report',
+            method: 'post',
+            data: formData
+        }).done(function(data) {
+            if (data.ok) {
+                $('form').html('');
+                alertify.success(data.message);
+                setTimeout(function() {
+                    window.location.href = '/?p=' + formData.postID;
+                }, 5000)
+            }
+        }).fail(function(jqXHR) {
+            try {
+                var errorInfo = JSON.parse(jqXHR.responseText);
+                if (errorInfo.error instanceof Array) {
+                    errorInfo.error.forEach(function(item, i, a) {
+                        alertify.error(item);
+                    });
+                } else {
+                    alertify.error(errorInfo.error);
+                }
+            } catch (err) {
+                alertify.error('DERP!');
+            }
+        }).always(function() {
+            laddaSubmitReport.stop();
+        });
+    });
+
+    $('#reportCommentText').on('input', function(e) {
+        var content = $(e.currentTarget).val();
+        var len = content.length;
+
+        $('#reportCommentTextLength').text(Math.max(len, 0));
+
+        $('#reportCommentTextLengthInfo').removeClass('text-danger');
+        $('#reportCommentTextLengthInfo').removeClass('text-warning');
+        $('#reportCommentTextLengthInfo').removeClass('text-muted');
+        if (len < 10 || len >= 500) {
+            $('#reportCommentTextLengthInfo').addClass('text-danger');
+        } else if (len > 450) {
+            $('#reportCommentTextLengthInfo').addClass('text-warning');
+        } else {
+            $('#reportCommentTextLengthInfo').addClass('text-muted');
         }
     });
 
