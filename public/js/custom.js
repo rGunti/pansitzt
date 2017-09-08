@@ -124,6 +124,7 @@ $(document).ready(function() {
         $('#uploadPostTitle').removeClass('is-invalid');
         $('#uploadURLImageValid').hide();
         $('#uploadPostTitleTooLong').hide();
+        $('#uploadPostCaptchaMissing').hide();
 
         var url = $('#uploadURL').val();
         var title = $('#uploadPostTitle').val();
@@ -165,11 +166,16 @@ $(document).ready(function() {
             }
         }
 
+        var captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            $('#uploadPostCaptchaMissing').show();
+        }
+
         return {
             url: url,
             title: title,
-            'g-recaptcha-response': grecaptcha.getResponse(),
-            valid: urlValid && (ignoreTitle ? true : titleValid)
+            'g-recaptcha-response': captchaResponse,
+            valid: urlValid && (ignoreTitle ? true : titleValid) && (captchaResponse)
         }
     }
 

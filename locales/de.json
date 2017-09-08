@@ -71,5 +71,7 @@
 	"api.response.recaptcha.invalid-input-secret": "Das Captcha ist falsch konfiguriert (Fehler: 0x201F)! Bitte benachrichtige den Hoster.",
 	"api.response.recaptcha.missing-input-response": "Du hast das Captcha nicht ausgefüllt. Bitte überprüfe deine Eingabe oder versuche es später nocheinmal.",
 	"api.response.recaptcha.invalid-input-response": "Du hast das Captcha nicht ausgefüllt. Bitte überprüfe deine Eingabe oder versuche es später nocheinmal.",
-	"api.response.recaptcha.bad-request": "Das Captcha ist kaputt gegangen! Versuche es später nocheinmal."
+	"api.response.recaptcha.bad-request": "Das Captcha ist kaputt gegangen! Versuche es später nocheinmal.",
+	"page.uploadpost.form.captca": "Captca",
+	"page.uploadpost.form.validation.captcamissing": "Bitte fülle das Captcha aus."
 }
