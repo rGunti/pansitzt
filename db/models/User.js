@@ -56,6 +56,11 @@ const User = db.define('users', {
     updatedAt: {
         field: 'updated_at',
         type: Sequelize.DataTypes.TIME
+    },
+    blockedAt: {
+        field: 'blocked_at',
+        type: Sequelize.DataTypes.TIME,
+        allowNull: true
     }
 });
 

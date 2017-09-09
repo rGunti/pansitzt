@@ -56,6 +56,10 @@ const VUser = db.define('v_users', {
     updatedAt: {
         field: 'updated_at',
         type: Sequelize.DataTypes.TIME
+    },
+    isBlocked: {
+        field: 'is_blocked',
+        type: Sequelize.DataTypes.BOOLEAN
     }
 });
 

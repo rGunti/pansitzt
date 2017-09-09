@@ -103,5 +103,9 @@
 	"page.report_post.caption": "Post melden",
 	"page.report_post.introduction": "Wenn du ein Post gefunden hast, der nicht den Community-Richtlinien entspricht, kannst du ihn hier melden.",
 	"page.report_post.form.submit": "Melden",
-	"page.reportpost.form.validation.reasonempty": "Bitte wähle ein Grund für deine Meldung aus."
+	"page.reportpost.form.validation.reasonempty": "Bitte wähle ein Grund für deine Meldung aus.",
+	"page.profile.userblocked": "@{{handle}} gesperrt",
+	"page.profile.userblocked.lead": "Das Konto des Benutzers @{{handle}} wurde aufgrund von Verstössen gegen die Community-Richtlinien gesperrt. Alle Posts dieses Benutzers sind nicht mehr verfügbar.",
+	"page.profile.userblocked.text": "Wir danken den Mitgliedern dieser Community für das Melden dieses Accounts. Ihr habt diese Community dadurch ein Stückchen sicherer gemacht.",
+	"page.profile.userblocked.footer": "Euer #PanSitzt-Admin-Team"
 }

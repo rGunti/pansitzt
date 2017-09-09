@@ -35,9 +35,13 @@ module.exports = function(app) {
 
     // Error Handler
     app.use(function(err, req, res, next) {
-        Utils.renderPage__(req, res, 'error', 'page.error.title', {
-            message: err.message,
-            error: (req.app.get('env') === 'dev') ? err : {}
-        }, err.status || 500);
+        if (err.redirectUrl) {
+            res.redirect(err.redirectUrl);
+        } else {
+            Utils.renderPage__(req, res, 'error', 'page.error.title', {
+                message: err.message,
+                error: (req.app.get('env') === 'dev') ? err : {}
+            }, err.status || 500);
+        }
     });
 };
