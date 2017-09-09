@@ -110,5 +110,8 @@
 	"page.profile.userblocked.text": "Wir danken den Mitgliedern dieser Community für das Melden dieses Accounts. Ihr habt diese Community dadurch ein Stückchen sicherer gemacht.",
 	"page.profile.userblocked.footer": "Euer #PanSitzt-Admin-Team",
 	"page.report_post.form.notice": "Achtung! Sende nur eine Meldung ab, wenn du dir sicher bist, dass dieser Inhalt nicht erwünscht ist. Ein Missbrauch dieser Funktion kann zur Sperrung deines eigenen Accounts führen!",
-	"page.report_post.form.notice.2": "Solltest du dir nicht sicher sein, ob deine Meldung gerechtfertig ist, lies dir nochmals das FAQ auf der Seite \"Über #PanSitzt\" durch und entscheide dann, ob du die Meldung wirklich absenden willst."
+	"page.report_post.form.notice.2": "Solltest du dir nicht sicher sein, ob deine Meldung gerechtfertig ist, lies dir nochmals das FAQ auf der Seite \"Über #PanSitzt\" durch und entscheide dann, ob du die Meldung wirklich absenden willst.",
+	"page.post.noposts.caption": "Hmmm... keine Posts mehr da",
+	"page.post.noposts.subtitle": "Offenbar sitzt Pan grade nicht mehr hier. Wir brauchen mehr Meme-Material!",
+	"page.post.noposts.lead": "Falls du ein paar #PanSitzt-Memes hast, poste sie doch hier. Dafür musst du dich nur mit deinem Twitter-Account anmelden."
 }

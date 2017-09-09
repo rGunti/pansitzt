@@ -83,7 +83,7 @@ module.exports = function(app) {
     function renderPostListPage(req, res, posts, votes, postCount, offset, morePostsCount) {
         Utils.renderPage(req, res, 'post_list', req.__('page.home.title'), {
             posts: posts,
-            postCount: Object.keys(posts).length,
+            postCount: (posts ? Object.keys(posts).length : 0),
             totalPostCount: postCount,
             votes: votes,
             offset: offset,
@@ -92,6 +92,11 @@ module.exports = function(app) {
     }
 
     function processPostList(req, res, totalPostCount, posts, offsetPost) {
+        if (posts.length === 0) {
+            renderPostListPage(req, res, null, null, 0, null, 0);
+            return;
+        }
+
         var lastPost = posts[Math.max(posts.length - 1, 0)];
         var postMap = Utils.generateObjectMap(posts, 'postID');
         VPost.count({
