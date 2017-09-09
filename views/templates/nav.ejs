@@ -41,6 +41,18 @@
                     <%= __('page.uploadpost.shorttitle') %>
                 </a>
             </li>
+
+            <% if (loggedInUser.isAdmin) { %>
+            <span class="navbar-text navbar-separator">|</span>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="/a">
+                    <span class="fa fa-fw fa-briefcase"></span>
+                    <%= __('page.admin.shorttitle') %>
+                </a>
+            </li>
+            <% } %>
+
             <% } %>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">

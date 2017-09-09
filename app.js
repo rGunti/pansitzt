@@ -49,6 +49,7 @@ app.use(passport.session());
 app.use('/', index);
 require('./routes/auth')(app, passport);
 require('./routes/posts')(app);
+require('./routes/admin')(app);
 require('./routes/errors')(app);
 
 module.exports = app;

@@ -81,6 +81,11 @@ footer img.emoji {
     .post-home-list .post-header-data {
         text-align: right;
     }
+
+    nav .navbar-separator {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }
 @media (max-width: 768px) {
     .post-home-list .post-header-data {
@@ -89,10 +94,18 @@ footer img.emoji {
     .post-home-list .post-header-actions {
         text-align: right;
     }
+
+    nav .navbar-separator {
+        display: none;
+    }
 }
 
 .post-home-list .post-list-post-title {
     display: block;
+}
+
+table td {
+    vertical-align: middle !important;
 }
 
 /*

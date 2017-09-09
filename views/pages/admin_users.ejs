@@ -1,0 +1,126 @@
+<!--
+  ~ Copyright (c) 2017, Raphael "rGunti" Guntersweiler
+  ~ Licensed under MIT
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  ~
+  -->
+
+<h1><%= __('page.admin.action.users') %></h1>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th><%= __('object.user.handle') %></th>
+            <th><%= __('object.user.displayname') %></th>
+            <th class="text-right"><%= __('object.user.postcount') %></th>
+            <th class="text-right"><%= __('object.user.createdat') %></th>
+            <th class="text-right"><%= __('object.user.updatedat') %></th>
+            <th class="text-center"><%= __('object.user.isadmin') %></th>
+            <th class="text-center"><%= __('object.user.isverified') %></th>
+            <th class="text-center"><%= __('object.user.isblocked') %></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i in data.users) { var user = data.users[i]; %>
+        <tr>
+            <td>
+                <a href="/u/<%= user.handle %>" target="_blank">
+                    @<%= user.handle %>
+                </a>
+            </td>
+            <td><%= user.displayName %></td>
+            <td class="text-right">
+                <a href="/u/<%= user.handle %>/posts" target="_blank">
+                    <%= user.postCount %>
+                </a>
+            </td>
+            <td class="text-right"><%= utils.moment(user.createdAt).format(__('dateformat.full')) %></td>
+            <td class="text-right"><%= utils.moment(user.updatedAt).format(__('dateformat.full')) %></td>
+            <td class="text-center"><% if (user.isAdmin) { %>
+                <span class="fa fa-fw fa-users"></span>
+                <% } %></td>
+            <td class="text-center"><% if (user.isVerified) { %>
+                <span class="fa fa-fw fa-check-square"></span>
+                <% } %></td>
+            <td class="text-center"><% if (user.isBlocked) { %>
+                <span class="fa fa-fw fa-ban"></span>
+                <% } %></td>
+            <td>
+                <div class="btn-group" role="group">
+                    <button type="button"
+                            class="btn btn-sm btn-primary dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h6 class="dropdown-header"><%= __('page.admin.action.users.actionson', user) %></h6>
+
+                        <% if (user.isBlocked) { %>
+                        <a class="dropdown-item" href="#"><%= __('page.admin.action.users.actionson.unblock') %></a>
+                        <% } else { %>
+                        <a class="dropdown-item" href="#"><%= __('page.admin.action.users.actionson.block') %></a>
+                        <% } %>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <!-- Paging Arrows Start -->
+        <li class="page-item <%= (data.currentPage <= 1) ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= '/a/users/1' %>" tabindex="-1">
+                <span class="fa fa-chevron-left"></span>
+                <span class="fa fa-chevron-left"></span>
+            </a>
+        </li>
+        <li class="page-item <%= (data.currentPage <= 1) ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= '/a/users/' + (data.currentPage - 1) %>" tabindex="-1">
+                <span class="fa fa-fw fa-chevron-left"></span>
+            </a>
+        </li>
+
+        <!-- Page Numbers -->
+        <% for (var p = 1; p <= data.maxPages; p++) { %>
+        <li class="page-item <%= (data.currentPage == p ? 'disabled' : '') %>">
+            <a class="page-link" href="<%= '/a/users/' + p %>">
+                <%= p %>
+            </a>
+        </li>
+        <% } %>
+
+        <!-- Paging Arrows End -->
+        <li class="page-item <%= (data.currentPage >= data.maxPages) ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= '/a/users/' + (data.currentPage + 1) %>">
+                <span class="fa fa-fw fa-chevron-right"></span>
+            </a>
+        </li>
+        <li class="page-item <%= (data.currentPage >= data.maxPages) ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= '/a/users/' + (data.maxPages) %>" tabindex="-1">
+                <span class="fa fa-chevron-right"></span>
+                <span class="fa fa-chevron-right"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
