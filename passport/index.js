@@ -46,7 +46,8 @@ module.exports = function(passport) {
     passport.use(new TwitterStrategy({
         consumerKey: twitterConfig.consumerKey,
         consumerSecret: twitterConfig.consumerSecret,
-        callbackURL: twitterConfig.callbackURL
+        callbackURL: twitterConfig.callbackURL,
+        includeEmail: true
     }, function(token, tokenSecret, profile, done) {
         process.nextTick(function() {
             User.findById(profile.id).then(function(user) {
@@ -59,6 +60,14 @@ module.exports = function(passport) {
                         }
                         if (user.displayName !== profile.displayName) {
                             user.displayName = profile.displayName;
+                            userNeedsUpdate = true;
+                        }
+                        if (user.email !== profile.emails[0].value) {
+                            user.email = profile.emails[0].value;
+                            userNeedsUpdate = true;
+                        }
+                        if (user.isVerified !== profile._json.verified) {
+                            user.isVerified = profile._json.verified;
                             userNeedsUpdate = true;
                         }
                         if (userNeedsUpdate) {
@@ -79,6 +88,8 @@ module.exports = function(passport) {
                     newUser.twitterToken = token;
                     newUser.handle = profile.username;
                     newUser.displayName = profile.displayName;
+                    newUser.email = profile.emails[0].value;
+                    newUser.isVerified = profile._json.verified;
 
                     newUser.save().then(function(user) {
                         done(null, user);

@@ -134,3 +134,34 @@ CREATE VIEW v_posts AS
   WHERE
     u.blocked_at IS NULL
 ;
+
+-- -------------------------------------------------------------------------------------
+-- --- Ver. 0.2                                                                      ---
+-- -------------------------------------------------------------------------------------
+
+-- Added E-Mail, Verified and Admin Status
+ALTER TABLE users ADD is_admin BOOLEAN DEFAULT FALSE NULL;
+ALTER TABLE users ADD is_verified BOOLEAN DEFAULT FALSE NULL;
+ALTER TABLE users ADD email VARCHAR(256) NULL;
+
+ALTER TABLE users
+  MODIFY COLUMN email VARCHAR(256) AFTER display_name,
+  MODIFY COLUMN is_verified TINYINT(1) DEFAULT '0' AFTER email,
+  MODIFY COLUMN is_admin TINYINT(1) DEFAULT '0' AFTER is_verified;
+
+DROP VIEW IF EXISTS v_users;
+CREATE VIEW v_users AS
+  SELECT
+    u.twitter_id AS twitter_id,
+    u.handle AS handle,
+    u.display_name AS display_name,
+    (SELECT COUNT(p.id) FROM posts p WHERE p.user_id = u.twitter_id) AS post_count,
+    u.created_at AS created_at,
+    u.updated_at AS updated_at,
+    (u.blocked_at IS NOT NULL) AS is_blocked,
+    u.email AS email,
+    u.is_verified as is_verified,
+    u.is_admin as is_admin
+  FROM
+    users u
+;

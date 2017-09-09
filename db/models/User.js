@@ -49,6 +49,19 @@ const User = db.define('users', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    email: {
+        field: 'email',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true
+    },
+    isVerified: {
+        field: 'is_verified',
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    isAdmin: {
+        field: 'is_admin',
+        type: Sequelize.DataTypes.BOOLEAN
+    },
     createdAt: {
         field: 'created_at',
         type: Sequelize.DataTypes.TIME

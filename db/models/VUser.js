@@ -44,6 +44,19 @@ const VUser = db.define('v_users', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    email: {
+        field: 'email',
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true
+    },
+    isVerified: {
+        field: 'is_verified',
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    isAdmin: {
+        field: 'is_admin',
+        type: Sequelize.DataTypes.BOOLEAN
+    },
     postCount: {
         field: 'post_count',
         type: Sequelize.DataTypes.INTEGER,
