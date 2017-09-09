@@ -26,7 +26,19 @@
 <div class="row">
     <div class="col-md-3">
         <h2>
-            <%= data.user.displayName %><br>
+            <%= data.user.displayName %>
+
+            <small>
+                <% if (data.user.isVerified) { %>
+                <span class="fa fa-check-square" title="<%= __('page.profile.userinfo.isverified') %>"></span>
+                <% } %>
+
+                <% if (data.user.isAdmin) { %>
+                <span class="fa fa-users" title="<%= __('page.profile.userinfo.isadmin') %>"></span>
+                <% } %>
+            </small>
+            <br>
+
             <small>
                 <a href="http://twitter.com/<%= data.user.handle %>"
                    target="_blank">
